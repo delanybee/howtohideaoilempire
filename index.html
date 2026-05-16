@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>California Oil Infrastructure Interactive Map</title>
+    <meta name="description" content="Interactive map of California's fossil fuel infrastructure including offshore platforms, oil fields, refineries, pipelines, and terminals.">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    
+    <!-- Leaflet Marker Cluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           BASE STYLES
+           ============================================ */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        :root {
+            --color-bg-dark: #1a1a2e;
+            --color-bg-panel: #252540;
+            --color-pipeline: #e67e22;
+            --color-platform: #3498db;
+            --color-oilfield: #27ae60;
+            --color-refinery: #9b59b6;
+            --color-terminal: #e74c3c;
+            --color-lease: #f39c12;
+            --color-text: #e8e8e8;
+            --color-text-muted: #888898;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--color-bg-dark);
+            color: var(--color-text);
+            overflow: hidden;
+        }
+        
+        /* ============================================
+           MAP CONTAINER
+           ============================================ */
+        #map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+        }
+        
+        /* ============================================
+           HEADER
+           ============================================ */
+        .map-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(180deg, rgba(26, 26, 46, 0.95) 0%, rgba(26, 26, 46, 0.8) 100%);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .map-header h1 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text);
+        }
+        
+        .map-header h1 span {
+            color: var(--color-pipeline);
+        }
+        
+        .header-stats {
+            display: flex;
+            gap: 24px;
+            font-size: 0.8rem;
+        }
+        
+        .header-stat {
+            text-align: center;
+        }
+        
+        .header-stat__number {
+            font-weight: 700;
+            color: var(--color-pipeline);
+            font-size: 1rem;
+        }
+        
+        .header-stat__label {
+            color: var(--color-text-muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+        
+        .back-link {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        
+        .back-link:hover {
+            color: var(--color-text);
+        }
+        
+        /* ============================================
+           SIDEBAR / LAYER CONTROLS
+           ============================================ */
+        .sidebar {
+            position: absolute;
+            top: 80px;
+            left: 20px;
+            width: 280px;
+            max-height: calc(100vh - 120px);
+            background: rgba(37, 37, 64, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            z-index: 1000;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-header {
+            padding: 16px;
+            background: var(--color-bg-dark);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-header h2 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .sidebar-header p {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+        
+        .sidebar-content {
+            padding: 16px;
+            max-height: calc(100vh - 240px);
+            overflow-y: auto;
+        }
+        
+        .layer-group {
+            margin-bottom: 20px;
+        }
+        
+        .layer-group__title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-muted);
+            margin-bottom: 10px;
+        }
+        
+        .layer-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .layer-toggle:hover {
+            background: rgba(255,255,255,0.08);
+        }
+        
+        .layer-toggle input[type="checkbox"] {
+            display: none;
+        }
+        
+        .layer-toggle__checkbox {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 2px solid var(--color-text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .layer-toggle input:checked + .layer-toggle__checkbox {
+            border-color: var(--layer-color, var(--color-pipeline));
+            background: var(--layer-color, var(--color-pipeline));
+        }
+        
+        .layer-toggle input:checked + .layer-toggle__checkbox::after {
+            content: '✓';
+            color: var(--color-bg-dark);
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .layer-toggle__info {
+            flex: 1;
+        }
+        
+        .layer-toggle__name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .layer-toggle__icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--layer-color, var(--color-pipeline));
+        }
+        
+        .layer-toggle__count {
+            font-size: 0.7rem;
+            color: var(--color-text-muted);
+        }
+        
+        /* ============================================
+           INFO PANEL (shows on feature click)
+           ============================================ */
+        .info-panel {
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            width: 320px;
+            max-height: calc(100vh - 120px);
+            background: rgba(37, 37, 64, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            z-index: 1000;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            display: none;
+        }
+        
+        .info-panel.active {
+            display: block;
+        }
+        
+        .info-panel__header {
+            padding: 16px;
+            background: var(--color-bg-dark);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .info-panel__title {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .info-panel__type {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--color-pipeline);
+            margin-top: 4px;
+        }
+        
+        .info-panel__close {
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+        }
+        
+        .info-panel__close:hover {
+            color: var(--color-text);
+        }
+        
+        .info-panel__content {
+            padding: 16px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .info-panel__section {
+            margin-bottom: 16px;
+        }
+        
+        .info-panel__section h4 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-bottom: 6px;
+        }
+        
+        .info-panel__section p {
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        
+        .info-panel__data {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .info-panel__datum {
+            background: rgba(255,255,255,0.03);
+            padding: 10px;
+            border-radius: 6px;
+        }
+        
+        .info-panel__datum-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-pipeline);
+        }
+        
+        .info-panel__datum-label {
+            font-size: 0.7rem;
+            color: var(--color-text-muted);
+        }
+        
+        .info-panel__source {
+            font-size: 0.7rem;
+            color: var(--color-text-muted);
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .info-panel__source a {
+            color: var(--color-platform);
+        }
+        
+        /* ============================================
+           LEGEND
+           ============================================ */
+        .legend {
+            position: absolute;
+            bottom: 30px;
+            left: 20px;
+            background: rgba(37, 37, 64, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            padding: 12px 16px;
+            z-index: 1000;
+            font-size: 0.75rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .legend__title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+        }
+        
+        .legend__item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        
+        .legend__color {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .legend__color--line {
+            height: 3px;
+            border-radius: 2px;
+        }
+        
+        .legend__color--area {
+            border-radius: 3px;
+            opacity: 0.6;
+        }
+        
+        /* ============================================
+           LEAFLET OVERRIDES
+           ============================================ */
+        .leaflet-container {
+            background: #1a1a2e;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .leaflet-control-zoom {
+            border: none !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+        }
+        
+        .leaflet-control-zoom a {
+            background: var(--color-bg-panel) !important;
+            color: var(--color-text) !important;
+            border: none !important;
+            width: 36px !important;
+            height: 36px !important;
+            line-height: 36px !important;
+            font-size: 18px !important;
+        }
+        
+        .leaflet-control-zoom a:hover {
+            background: var(--color-bg-dark) !important;
+        }
+        
+        .leaflet-control-zoom-in {
+            border-radius: 8px 8px 0 0 !important;
+        }
+        
+        .leaflet-control-zoom-out {
+            border-radius: 0 0 8px 8px !important;
+        }
+        
+        .leaflet-popup-content-wrapper {
+            background: var(--color-bg-panel);
+            color: var(--color-text);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        
+        .leaflet-popup-tip {
+            background: var(--color-bg-panel);
+        }
+        
+        .leaflet-popup-content {
+            margin: 12px 14px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        
+        .leaflet-popup-content h3 {
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+            color: var(--color-pipeline);
+        }
+        
+        .leaflet-popup-content p {
+            margin: 4px 0;
+            color: var(--color-text-muted);
+        }
+        
+        .leaflet-popup-content strong {
+            color: var(--color-text);
+        }
+        
+        .leaflet-control-layers {
+            display: none; /* Using custom layer control */
+        }
+        
+        .leaflet-control-attribution {
+            background: rgba(26, 26, 46, 0.8) !important;
+            color: var(--color-text-muted) !important;
+            font-size: 10px !important;
+        }
+        
+        .leaflet-control-attribution a {
+            color: var(--color-platform) !important;
+        }
+        
+        /* Custom markers */
+        .custom-marker {
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .marker-platform {
+            background: var(--color-platform);
+        }
+        
+        .marker-oilfield {
+            background: var(--color-oilfield);
+        }
+        
+        .marker-refinery {
+            background: var(--color-refinery);
+        }
+        
+        .marker-terminal {
+            background: var(--color-terminal);
+        }
+        
+        /* ============================================
+           SEARCH
+           ============================================ */
+        .search-container {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            color: var(--color-text);
+            font-family: inherit;
+            font-size: 0.85rem;
+        }
+        
+        .search-input::placeholder {
+            color: var(--color-text-muted);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-pipeline);
+            background: rgba(255,255,255,0.08);
+        }
+        
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: calc(100% - 40px);
+                max-height: 50vh;
+                top: auto;
+                bottom: 20px;
+            }
+            
+            .info-panel {
+                width: calc(100% - 40px);
+                right: 20px;
+                left: 20px;
+                top: 80px;
+                max-height: 60vh;
+            }
+            
+            .header-stats {
+                display: none;
+            }
+            
+            .legend {
+                bottom: auto;
+                top: 80px;
+                left: auto;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="map-header">
+        <a href="index.html" class="back-link">← Back to Story</a>
+        <h1>California <span>Oil Infrastructure</span> Map</h1>
+        <div class="header-stats">
+            <div class="header-stat">
+                <div class="header-stat__number">27</div>
+                <div class="header-stat__label">Platforms</div>
+            </div>
+            <div class="header-stat">
+                <div class="header-stat__number">9</div>
+                <div class="header-stat__label">Refineries</div>
+            </div>
+            <div class="header-stat">
+                <div class="header-stat__number">70K+</div>
+                <div class="header-stat__label">Wells</div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Map Container -->
+    <div id="map"></div>
+    
+    <!-- Sidebar / Layer Controls -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Infrastructure Layers</h2>
+            <p>Toggle layers to explore California's oil and gas network</p>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" class="search-input" id="search-input" placeholder="Search by name, company, or location...">
+        </div>
+        
+        <div class="sidebar-content">
+            <div class="layer-group">
+                <div class="layer-group__title">Offshore</div>
+                
+                <label class="layer-toggle" style="--layer-color: var(--color-platform)">
+                    <input type="checkbox" id="layer-platforms" checked>
+                    <span class="layer-toggle__checkbox"></span>
+                    <div class="layer-toggle__info">
+                        <div class="layer-toggle__name">
+                            <span class="layer-toggle__icon"></span>
+                            Offshore Platforms
+                        </div>
+                        <div class="layer-toggle__count">27 platforms</div>
+                    </div>
+                </label>
+                
+                <label class="layer-toggle" style="--layer-color: #1abc9c">
+                    <input type="checkbox" id="layer-offshore-pipelines" checked>
+                    <span class="layer-toggle__checkbox"></span>
+                    <div class="layer-toggle__info">
+                        <div class="layer-toggle__name">
+                            <span class="layer-toggle__icon"></span>
+                            Offshore Pipelines
+                        </div>
+                        <div class="layer-toggle__count">Platform connections</div>
+                    </div>
+                </label>
+            </div>
+            
+            <div class="layer-group">
+                <div class="layer-group__title">Onshore Production</div>
+                
+                <label class="layer-toggle" style="--layer-color: var(--color-oilfield)">
+                    <input type="checkbox" id="layer-oilfields" checked>
+                    <span class="layer-toggle__checkbox"></span>
+                    <div class="layer-toggle__info">
+                        <div class="layer-toggle__name">
+                            <span class="layer-toggle__icon"></span>
+                            Major Oil Fields
+                        </div>
+                        <div class="layer-toggle__count">Top 20 producing fields</div>
+                    </div>
+                </label>
+                
+                <label class="layer-toggle" style="--layer-color: var(--color-lease)">
+                    <input type="checkbox" id="layer-basins">
+                    <span class="layer-toggle__checkbox"></span>
+                    <div class="layer-toggle__info">
+                        <div class="layer-toggle__name">
+                            <span class="layer-toggle__icon"></span>
+                            Geological Basins
+                        </div>
+                        <div class="layer-toggle__count">San Joaquin, LA, Ventura</div>
+                    </div>
+                </label>
+            </div>
+            
+            <div class="layer-group">
+                <div class="layer-group__title">Processing & Distribution</div>
+                
+                <label class="layer-toggle" style="--layer-color: var(--color-refinery)">
+                    <input type="checkbox" id="layer-refineries" checked>
+                    <span class="layer-toggle__checkbox"></span>
+                    <div class="layer-toggle__info">
+                        <div class="layer-toggle__name">
+                            <span class="layer-toggle__icon"></span>
+                            Refineries
+                        </div>
+                        <div class="layer-toggle__count">9 active facilities</div>
+                    </div>
+                </label>
+                
+                <label class="layer-toggle" style="--layer-color: var(--color-terminal)">
+                    <input type="checkbox" id="layer-terminals" checked>
+                    <span class="layer-toggle__checkbox"></span>
+                    <div class="layer-toggle__info">
+                        <div class="layer-toggle__name">
+                            <span class="layer-toggle__icon"></span>
+                            Marine Terminals
+                        </div>
+                        <div class="layer-toggle__count">Import/export facilities</div>
+                    </div>
+                </label>
+                
+                <label class="layer-toggle" style="--layer-color: var(--color-pipeline)">
+                    <input type="checkbox" id="layer-pipelines" checked>
+                    <span class="layer-toggle__checkbox"></span>
+                    <div class="layer-toggle__info">
+                        <div class="layer-toggle__name">
+                            <span class="layer-toggle__icon"></span>
+                            Major Pipelines
+                        </div>
+                        <div class="layer-toggle__count">Crude & product lines</div>
+                    </div>
+                </label>
+            </div>
+            
+            <div class="layer-group">
+                <div class="layer-group__title">Base Map</div>
+                
+                <label class="layer-toggle" style="--layer-color: #95a5a6">
+                    <input type="radio" name="basemap" id="basemap-topo" checked>
+                    <span class="layer-toggle__checkbox"></span>
+                    <div class="layer-toggle__info">
+                        <div class="layer-toggle__name">Topographic</div>
+                    </div>
+                </label>
+                
+                <label class="layer-toggle" style="--layer-color: #95a5a6">
+                    <input type="radio" name="basemap" id="basemap-satellite">
+                    <span class="layer-toggle__checkbox"></span>
+                    <div class="layer-toggle__info">
+                        <div class="layer-toggle__name">Satellite</div>
+                    </div>
+                </label>
+                
+                <label class="layer-toggle" style="--layer-color: #95a5a6">
+                    <input type="radio" name="basemap" id="basemap-dark">
+                    <span class="layer-toggle__checkbox"></span>
+                    <div class="layer-toggle__info">
+                        <div class="layer-toggle__name">Dark</div>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Info Panel (hidden by default) -->
+    <aside class="info-panel" id="info-panel">
+        <div class="info-panel__header">
+            <div>
+                <h3 class="info-panel__title" id="info-title">Feature Name</h3>
+                <div class="info-panel__type" id="info-type">Type</div>
+            </div>
+            <button class="info-panel__close" id="info-close">&times;</button>
+        </div>
+        <div class="info-panel__content">
+            <div class="info-panel__section">
+                <h4>Overview</h4>
+                <p id="info-description">Description text goes here.</p>
+            </div>
+            <div class="info-panel__section">
+                <h4>Key Data</h4>
+                <div class="info-panel__data" id="info-data">
+                    <!-- Data items inserted here -->
+                </div>
+            </div>
+            <div class="info-panel__source" id="info-source">
+                Source: <a href="#" target="_blank">Data source</a>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Legend -->
+    <div class="legend">
+        <div class="legend__title">Legend</div>
+        <div class="legend__item">
+            <div class="legend__color" style="background: var(--color-platform)"></div>
+            <span>Offshore Platform</span>
+        </div>
+        <div class="legend__item">
+            <div class="legend__color" style="background: var(--color-oilfield)"></div>
+            <span>Oil Field</span>
+        </div>
+        <div class="legend__item">
+            <div class="legend__color" style="background: var(--color-refinery)"></div>
+            <span>Refinery</span>
+        </div>
+        <div class="legend__item">
+            <div class="legend__color" style="background: var(--color-terminal)"></div>
+            <span>Terminal</span>
+        </div>
+        <div class="legend__item">
+            <div class="legend__color legend__color--line" style="background: var(--color-pipeline)"></div>
+            <span>Pipeline</span>
+        </div>
+    </div>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Marker Cluster -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    
+    <!-- Map Data -->
+    <script src="js/california-map-data.js"></script>
+    
+    <!-- Map Logic -->
+    <script src="js/california-map.js"></script>
+</body>
+</html>

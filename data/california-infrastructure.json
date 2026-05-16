@@ -1,0 +1,171 @@
+{
+  "metadata": {
+    "title": "California Fossil Fuel Infrastructure",
+    "sources": [
+      "BSEE Pacific OCS Platforms",
+      "CalGEM Oil & Gas Maps",
+      "CA Energy Commission Petroleum Market",
+      "CARB California Refineries"
+    ],
+    "sourceUrls": {
+      "bsee": "https://www.bsee.gov/stats-facts/ocs-regions/pacific/pacific-ocs-platforms",
+      "calgem": "https://maps.conservation.ca.gov/oilgas/",
+      "cec": "https://www.energy.ca.gov/data-reports/energy-almanac/californias-petroleum-market",
+      "carb": "https://ww2.arb.ca.gov/resources/documents/california-refineries"
+    },
+    "lastUpdated": "2026-01"
+  },
+  "offshore": {
+    "totalPlatforms": 27,
+    "federalWaters": 23,
+    "stateWaters": 4,
+    "activelyProducing": 19,
+    "awaitingDecommissioning": 8,
+    "geographicRange": "Huntington Beach to Point Conception",
+    "operators": [
+      {
+        "name": "Sable Offshore (formerly ExxonMobil)",
+        "platforms": ["Harmony", "Heritage", "Hondo"],
+        "status": "Restarted May 2025 after 10-year shutdown following 2015 Refugio spill"
+      },
+      {
+        "name": "Freeport McMoRan",
+        "platforms": ["Harvest", "Hermosa", "Hidalgo", "Irene"]
+      },
+      {
+        "name": "DCOR",
+        "platforms": ["Platform A", "Platform B", "Platform C", "Edith", "Gilda", "Gina", "Habitat", "Henry", "Hillhouse"]
+      }
+    ]
+  },
+  "oilFields": {
+    "primaryRegion": "Kern County",
+    "kernCountyShare": "80-90% of CA onshore drilling",
+    "nationalRanking": "4 of nation's top 7 producing fields are in Kern County",
+    "majorFields": [
+      {
+        "name": "Midway-Sunset",
+        "rank": "Largest CA field",
+        "cumulativeProduction": "~4 billion barrels",
+        "oilInPlace": "27 billion barrels",
+        "oilType": "Heavy"
+      },
+      {
+        "name": "South Belridge",
+        "cumulativeProduction": "2+ billion barrels",
+        "activeWells": 6253,
+        "oilType": "Heavy"
+      },
+      {
+        "name": "Kern River",
+        "cumulativeProduction": "2 billion barrels",
+        "activeWells": 9183,
+        "operator": "Chevron",
+        "oilType": "Heavy"
+      },
+      {
+        "name": "Elk Hills",
+        "cumulativeProduction": "2+ billion BOE",
+        "area": "~75 square miles",
+        "note": "Former Naval Petroleum Reserve"
+      }
+    ],
+    "extractionMethod": {
+      "type": "Steam injection (thermal recovery)",
+      "reason": "Heavy oil requires heating to flow",
+      "waterSource": "State Water Project",
+      "environmentalConcern": "Massive water consumption"
+    }
+  },
+  "refineries": {
+    "historicalCount": "~50 in 1980",
+    "currentCountJan2026": 9,
+    "totalCapacityBpd": 1500000,
+    "demand": {
+      "bpd": 1780000,
+      "gap": "Filled by imports from Iraq, Ecuador, Saudi Arabia"
+    },
+    "marketConcentration": "5 companies control 98% of gasoline refining capacity",
+    "fuelIsland": "No pipeline connection to other U.S. refining regions",
+    "facilities": {
+      "bayArea": [
+        {
+          "name": "Chevron Richmond",
+          "capacityBpd": 245000,
+          "operator": "Chevron",
+          "status": "Active"
+        },
+        {
+          "name": "PBF Martinez",
+          "capacityBpd": 157000,
+          "operator": "PBF Energy",
+          "status": "Active"
+        },
+        {
+          "name": "Valero Benicia",
+          "capacityBpd": 145000,
+          "operator": "Valero",
+          "status": "Closing April 2026"
+        }
+      ],
+      "losAngeles": [
+        {
+          "name": "Marathon Carson",
+          "capacityBpd": 363000,
+          "operator": "Marathon Petroleum",
+          "status": "Active",
+          "note": "Largest in California"
+        },
+        {
+          "name": "Chevron El Segundo",
+          "capacityBpd": 269000,
+          "operator": "Chevron",
+          "status": "Active"
+        },
+        {
+          "name": "PBF Torrance",
+          "capacityBpd": 155000,
+          "operator": "PBF Energy",
+          "status": "Active"
+        },
+        {
+          "name": "Phillips 66 Wilmington",
+          "capacityBpd": 139000,
+          "operator": "Phillips 66",
+          "status": "Closing 2025"
+        }
+      ],
+      "converted": [
+        {
+          "name": "Phillips 66 Rodeo",
+          "formerCapacityBpd": 120000,
+          "status": "Converted to renewable diesel facility"
+        }
+      ]
+    }
+  },
+  "terminals": [
+    {
+      "name": "Zenith Long Beach",
+      "type": "Marine terminal"
+    },
+    {
+      "name": "Zenith Dominguez Hills",
+      "capacityBarrels": 4000000
+    },
+    {
+      "name": "World Oil Marine Terminal",
+      "type": "Marine terminal"
+    },
+    {
+      "name": "Richmond Long Wharf",
+      "operator": "Chevron"
+    }
+  ],
+  "supplyChainVulnerability": {
+    "noInterstatePipeline": true,
+    "importDependence": "Gap between refining capacity and demand filled by tanker imports",
+    "importSources": ["Iraq", "Ecuador", "Saudi Arabia"],
+    "priceVolatility": "Higher than national average due to isolation"
+  }
+}

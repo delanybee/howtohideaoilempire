@@ -1,0 +1,69 @@
+{
+  "metadata": {
+    "title": "PHMSA Pipeline Incident Data",
+    "source": "Pipeline and Hazardous Materials Safety Administration (PHMSA)",
+    "sourceUrl": "https://www.phmsa.dot.gov/data-and-statistics/pipeline/pipeline-incident-20-year-trends",
+    "additionalSource": "FracTracker Alliance Analysis (April 2025)",
+    "additionalSourceUrl": "https://www.fractracker.org/2025/04/pipeline-incidents-are-a-daily-occurrence/",
+    "dateRange": "2010-2024",
+    "lastUpdated": "2025-04",
+    "notes": "Significant incidents include fatalities, hospitalizations, releases of 5+ barrels, or $50,000+ property damage"
+  },
+  "summary": {
+    "totalIncidents": 9329,
+    "yearsAnalyzed": 15,
+    "averagePerYear": 628,
+    "averagePerDay": 1.7,
+    "incidents2024": 530,
+    "avgPropertyDamage": 947700
+  },
+  "annualData": [
+    { "year": 2010, "incidents": 618, "significantIncidents": 312, "fatalities": 11, "injuries": 52, "propertyDamage": 585000000 },
+    { "year": 2011, "incidents": 592, "significantIncidents": 298, "fatalities": 14, "injuries": 48, "propertyDamage": 498000000 },
+    { "year": 2012, "incidents": 576, "significantIncidents": 285, "fatalities": 8, "injuries": 39, "propertyDamage": 412000000 },
+    { "year": 2013, "incidents": 621, "significantIncidents": 318, "fatalities": 10, "injuries": 55, "propertyDamage": 528000000 },
+    { "year": 2014, "incidents": 707, "significantIncidents": 362, "fatalities": 19, "injuries": 97, "propertyDamage": 612000000 },
+    { "year": 2015, "incidents": 714, "significantIncidents": 358, "fatalities": 12, "injuries": 63, "propertyDamage": 718000000 },
+    { "year": 2016, "incidents": 638, "significantIncidents": 321, "fatalities": 10, "injuries": 45, "propertyDamage": 492000000 },
+    { "year": 2017, "incidents": 605, "significantIncidents": 302, "fatalities": 8, "injuries": 37, "propertyDamage": 445000000 },
+    { "year": 2018, "incidents": 622, "significantIncidents": 315, "fatalities": 11, "injuries": 51, "propertyDamage": 478000000 },
+    { "year": 2019, "incidents": 614, "significantIncidents": 308, "fatalities": 9, "injuries": 42, "propertyDamage": 389000000 },
+    { "year": 2020, "incidents": 548, "significantIncidents": 275, "fatalities": 6, "injuries": 28, "propertyDamage": 315000000 },
+    { "year": 2021, "incidents": 593, "significantIncidents": 298, "fatalities": 7, "injuries": 35, "propertyDamage": 425000000 },
+    { "year": 2022, "incidents": 648, "significantIncidents": 328, "fatalities": 12, "injuries": 56, "propertyDamage": 512000000 },
+    { "year": 2023, "incidents": 703, "significantIncidents": 352, "fatalities": 14, "injuries": 68, "propertyDamage": 598000000 },
+    { "year": 2024, "incidents": 530, "significantIncidents": 265, "fatalities": 8, "injuries": 38, "propertyDamage": 380000000 }
+  ],
+  "texasData": {
+    "totalIncidents": 2881,
+    "percentOfNational": 30.9,
+    "pipelineMilesPercent": 11.3,
+    "incidentRatePer1000Miles": 2.66,
+    "nationalAverageRate": 1.0,
+    "rateMultiplier": 2.66
+  },
+  "stateRankings": [
+    { "rank": 1, "state": "Texas", "incidents": 2881, "percent": 30.9 },
+    { "rank": 2, "state": "Louisiana", "incidents": 892, "percent": 9.6 },
+    { "rank": 3, "state": "Oklahoma", "incidents": 678, "percent": 7.3 },
+    { "rank": 4, "state": "California", "incidents": 512, "percent": 5.5 },
+    { "rank": 5, "state": "Kansas", "incidents": 398, "percent": 4.3 }
+  ],
+  "incidentCategories": {
+    "fatalitiesOrInjuries": 127,
+    "majorReleases": 3842,
+    "propertyDamageOver50k": 4215,
+    "otherSignificant": 1145
+  },
+  "pipelineInfrastructure": {
+    "crudeOilMiles": 85000,
+    "totalPipelineMiles": 2800000,
+    "refineries": 132,
+    "majorsOperators": [
+      { "name": "Plains All American", "miles": 14919 },
+      { "name": "Enbridge", "miles": 12974 },
+      { "name": "Enterprise Products", "miles": 11000 },
+      { "name": "Magellan Midstream", "miles": 9800 }
+    ]
+  }
+}

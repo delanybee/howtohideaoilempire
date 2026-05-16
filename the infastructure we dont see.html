@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Infrastructure We Don't See | U.S. Fossil Fuel Network</title>
+    <meta name="description" content="An interactive exploration of America's vast fossil fuel infrastructure: 2.8+ million miles of pipeline, 132 refineries, and offshore drilling spanning two oceans.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Main Container -->
+    <main id="scrolly">
+        
+        <!-- SECTION 1: Title / Hook -->
+        <section class="section section--hero" id="section-hero" data-section="hero">
+            <div class="section__background"></div>
+            <div class="section__content">
+                <div class="hero__text">
+                    <h1 class="hero__title fade-in">The Infrastructure We Don't See</h1>
+                    <p class="hero__subtitle fade-in fade-in--delay-1">
+                        Beneath our feet and across our landscapes lies one of the largest industrial networks ever built.
+                    </p>
+                    <div class="hero__stats fade-in fade-in--delay-2">
+                        <div class="stat">
+                            <span class="stat__number" data-target="2800000">2.8M+</span>
+                            <span class="stat__label">miles of pipeline</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat__number" data-target="132">132</span>
+                            <span class="stat__label">refineries</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat__number">2</span>
+                            <span class="stat__label">oceans with offshore drilling</span>
+                        </div>
+                    </div>
+                    <div class="scroll-indicator fade-in fade-in--delay-3">
+                        <span>Scroll to explore</span>
+                        <div class="scroll-arrow"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: The Pipeline Network -->
+        <section class="section section--scrolly" id="section-pipelines" data-section="pipelines">
+            <div class="scrolly__sticky">
+                <div class="map-container" id="pipeline-map">
+                    <!-- SVG map will be inserted here by maps.js -->
+                    <div class="map-placeholder">
+                        <p>Loading Pipeline Network Map...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scrolly__steps">
+                <article class="step" data-step="pipelines-intro">
+                    <div class="step__content">
+                        <h2>The Pipeline Network</h2>
+                        <p>The United States operates the most extensive pipeline network in the world: <strong>85,000 miles of crude oil lines</strong> and over <strong>200,000 miles total</strong> when including refined products and natural gas liquids.</p>
+                        <div class="data-grid">
+                            <div class="data-grid__item">
+                                <span class="data-grid__number">2.8M</span>
+                                <span class="data-grid__label">total pipeline miles (all types)</span>
+                            </div>
+                            <div class="data-grid__item">
+                                <span class="data-grid__number">72B</span>
+                                <span class="data-grid__label">barrels transported annually</span>
+                            </div>
+                        </div>
+                        <p class="source">Source: PHMSA, Bureau of Transportation Statistics, American Petroleum Institute</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="pipelines-permian">
+                    <div class="step__content">
+                        <h3>Permian Basin to Gulf Coast</h3>
+                        <p>The Permian Basin in West Texas is America's most productive oil field, producing over <strong>6 million barrels per day</strong>, nearly half of total U.S. output. Multiple major pipelines carry crude to Gulf Coast refineries and export terminals:</p>
+                        <ul>
+                            <li><strong>Cactus Pipeline:</strong> 670,000 bpd capacity, 660 miles</li>
+                            <li><strong>EPIC Pipeline:</strong> 600,000 bpd capacity, 730 miles</li>
+                            <li><strong>Gray Oak Pipeline:</strong> 900,000 bpd capacity, 900 miles</li>
+                            <li><strong>Permian Highway:</strong> 2.1 Bcf/d natural gas capacity</li>
+                            <li><strong>Wink to Webster:</strong> 1M bpd capacity, 650 miles</li>
+                        </ul>
+                        <p>Combined Permian takeaway capacity exceeds <strong>4.5 million bpd</strong> of crude oil.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="pipelines-cushing">
+                    <div class="step__content">
+                        <h3>The Cushing Hub</h3>
+                        <p>Cushing, Oklahoma serves as the "Pipeline Crossroads of the World." Oil from Canadian oil sands and the Bakken formation flows here through massive networks:</p>
+                        <ul>
+                            <li><strong>Plains All American:</strong> 14,919 miles of pipeline</li>
+                            <li><strong>Enbridge:</strong> 12,974 miles of pipeline</li>
+                            <li><strong>Keystone Pipeline:</strong> 2,687 miles from Alberta to Gulf Coast</li>
+                            <li><strong>Seaway Pipeline:</strong> 500 miles, reversed in 2012 to flow south</li>
+                        </ul>
+                        <p>Cushing's tank farms hold up to <strong>90 million barrels</strong>, and WTI prices are benchmarked to deliveries here.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="pipelines-colonial">
+                    <div class="step__content">
+                        <h3>Colonial Pipeline</h3>
+                        <p>The Colonial Pipeline runs from Houston to New York Harbor, carrying <strong>2.5 million barrels per day</strong> of refined products. It supplies nearly half of the East Coast's fuel.</p>
+                        <p>The 2021 ransomware attack demonstrated just how dependent the East Coast is on this single piece of infrastructure.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="pipelines-california">
+                    <div class="step__content">
+                        <h3>California: The Fuel Island</h3>
+                        <p>Unlike every other major U.S. market, <strong>California has no pipeline connection</strong> to other refining regions. The state must rely entirely on:</p>
+                        <ul>
+                            <li>In-state production and refining</li>
+                            <li>Marine imports from foreign sources</li>
+                        </ul>
+                        <p>This isolation makes California vulnerable to supply disruptions and price spikes.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="pipelines-offshore">
+                    <div class="step__content">
+                        <h3>Offshore Pipeline Networks</h3>
+                        <p>Beyond onshore systems, <strong>8,600+ miles of active offshore pipelines</strong> connect platforms to shore in the Gulf of Mexico alone.</p>
+                        <ul>
+                            <li><strong>Mars Pipeline:</strong> 220 miles, 600,000 bpd capacity</li>
+                            <li><strong>Caesar Pipeline:</strong> 215 miles deepwater system</li>
+                            <li><strong>Poseidon Pipeline:</strong> 100 miles, connects major deepwater fields</li>
+                        </ul>
+                        <p>Subsea pipelines rest on the ocean floor at depths up to 7,000+ feet.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+        
+        <!-- SECTION 2.5: Offshore Oil Platforms -->
+        <section class="section section--scrolly" id="section-offshore" data-section="offshore">
+            <div class="scrolly__sticky">
+                <div class="infographic-container" id="offshore-infographic">
+                    <div class="offshore-diagram">
+                        <div class="offshore-title">U.S. Offshore Oil Production</div>
+                        <div class="offshore-stats" id="offshore-stats"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scrolly__steps">
+                <article class="step" data-step="offshore-intro">
+                    <div class="step__content">
+                        <h2>Offshore Oil Platforms</h2>
+                        <p>The U.S. operates hundreds of offshore platforms in federal waters, concentrated primarily in the Gulf of Mexico. These structures range from shallow-water fixed platforms to deepwater floating systems in water over 10,000 feet deep.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="offshore-gulf">
+                    <div class="step__content">
+                        <h3>Gulf of Mexico: America's Offshore Heartland</h3>
+                        <div class="data-callout">
+                            <div class="data-callout__number">1,862</div>
+                            <div class="data-callout__label">active platforms in the Gulf</div>
+                        </div>
+                        <p>The Gulf of Mexico accounts for <strong>97% of all U.S. offshore oil production</strong> and <strong>15% of total U.S. crude output</strong>.</p>
+                        <ul>
+                            <li><strong>Production:</strong> ~1.8 million barrels per day</li>
+                            <li><strong>Proven reserves:</strong> 4.7 billion barrels</li>
+                            <li><strong>Active leases:</strong> 2,700+ covering 14.7 million acres</li>
+                        </ul>
+                        <p class="source">Source: BSEE, EIA</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="offshore-deepwater">
+                    <div class="step__content">
+                        <h3>Deepwater Frontier</h3>
+                        <p>Deepwater (1,000+ feet) and ultra-deepwater (5,000+ feet) production now accounts for the majority of Gulf output:</p>
+                        <ul>
+                            <li><strong>Thunder Horse:</strong> BP, 250,000 bpd, 6,050 ft depth</li>
+                            <li><strong>Atlantis:</strong> BP, 200,000 bpd, 7,070 ft depth</li>
+                            <li><strong>Mars/Ursa:</strong> Shell, 230,000 bpd combined</li>
+                            <li><strong>Perdido:</strong> Shell, world's deepest at 9,627 ft</li>
+                            <li><strong>Mad Dog:</strong> BP, 140,000 bpd, expanded in 2023</li>
+                        </ul>
+                        <p>Deepwater wells can cost <strong>$100-200 million each</strong> to drill.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="offshore-majors">
+                    <div class="step__content">
+                        <h3>Major Operators</h3>
+                        <p>A handful of companies dominate Gulf production:</p>
+                        <ul>
+                            <li><strong>Shell:</strong> ~400,000 bpd, largest Gulf producer</li>
+                            <li><strong>BP:</strong> ~300,000 bpd, major deepwater presence</li>
+                            <li><strong>Chevron:</strong> ~250,000 bpd, Anchor project at record depth</li>
+                            <li><strong>ExxonMobil:</strong> ~150,000 bpd</li>
+                            <li><strong>Murphy Oil, LLOG, W&T:</strong> Significant independent operators</li>
+                        </ul>
+                        <p>The top 5 operators control over 75% of Gulf production.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="offshore-infrastructure">
+                    <div class="step__content">
+                        <h3>Platform Infrastructure</h3>
+                        <p>Offshore platforms are engineering marvels requiring massive support systems:</p>
+                        <ul>
+                            <li><strong>Fixed platforms:</strong> 1,700+ structures in shallow water</li>
+                            <li><strong>Floating systems:</strong> 50+ FPSOs, spars, and TLPs</li>
+                            <li><strong>Subsea completions:</strong> 3,500+ wells tied back to host platforms</li>
+                            <li><strong>Offshore pipelines:</strong> 8,600+ miles of active lines</li>
+                            <li><strong>Helicopter flights:</strong> 600,000+ annually for crew transport</li>
+                        </ul>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="offshore-pacific">
+                    <div class="step__content">
+                        <h3>Pacific OCS: A Different Story</h3>
+                        <p>Unlike the Gulf, Pacific offshore drilling is constrained:</p>
+                        <div class="comparison-box">
+                            <div class="comparison-box__item">
+                                <span class="comparison-box__number">1,862</span>
+                                <span class="comparison-box__label">Gulf platforms</span>
+                            </div>
+                            <div class="comparison-box__vs">vs.</div>
+                            <div class="comparison-box__item">
+                                <span class="comparison-box__number">23</span>
+                                <span class="comparison-box__label">Pacific platforms</span>
+                            </div>
+                        </div>
+                        <p>Federal moratoria banned new Pacific leasing from 1984 to 2008, and California state waters have been closed since 1969. Existing platforms operate on legacy leases.</p>
+                        <p class="source">Source: BSEE Pacific OCS Region</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="offshore-alaska">
+                    <div class="step__content">
+                        <h3>Alaska OCS</h3>
+                        <p>Alaska's offshore potential remains largely untapped:</p>
+                        <ul>
+                            <li><strong>Beaufort Sea:</strong> 2 active production islands (Endicott, Northstar)</li>
+                            <li><strong>Cook Inlet:</strong> 15 platforms, declining production</li>
+                            <li><strong>Chukchi Sea:</strong> Exploration halted, no production</li>
+                            <li><strong>Estimated reserves:</strong> 23.6 billion barrels technically recoverable</li>
+                        </ul>
+                        <p>Harsh conditions, environmental concerns, and high costs limit Arctic development.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Pipeline Safety / PHMSA Data -->
+        <section class="section section--scrolly" id="section-safety" data-section="safety">
+            <div class="scrolly__sticky">
+                <div class="chart-container" id="safety-charts">
+                    <canvas id="incidents-chart" aria-label="Chart showing pipeline incidents from 2010-2024"></canvas>
+                </div>
+            </div>
+            
+            <div class="scrolly__steps">
+                <article class="step" data-step="safety-intro">
+                    <div class="step__content">
+                        <h2>Pipeline Safety: The Daily Reality</h2>
+                        <p>Despite industry safety claims, pipeline incidents remain a near-daily occurrence across the United States.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="safety-stats">
+                    <div class="step__content">
+                        <h3>The Numbers</h3>
+                        <div class="data-callout">
+                            <div class="data-callout__number" id="counter-incidents">9,329</div>
+                            <div class="data-callout__label">total incidents from 2010 to 2024</div>
+                        </div>
+                        <p>That averages to <strong>628 incidents per year</strong>, or roughly <strong>1.7 incidents every single day</strong>.</p>
+                        <p class="source">Source: PHMSA Pipeline Incident 20 Year Trends, FracTracker Alliance analysis (April 2025)</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="safety-2024">
+                    <div class="step__content">
+                        <h3>2024 Snapshot</h3>
+                        <p>In 2024 alone, there were <strong>530+ reported incidents</strong>. "Significant" incidents include those involving:</p>
+                        <ul>
+                            <li>Fatalities or hospitalizations</li>
+                            <li>Releases of 5+ barrels of hazardous liquid</li>
+                            <li>Property damage exceeding $50,000</li>
+                        </ul>
+                        <p>Average property damage per hazardous liquid accident: <strong>$947,700</strong></p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="safety-texas">
+                    <div class="step__content">
+                        <h3>Texas: The Epicenter</h3>
+                        <p>Texas accounts for a disproportionate share of pipeline incidents:</p>
+                        <div class="comparison-box">
+                            <div class="comparison-box__item">
+                                <span class="comparison-box__number">30%</span>
+                                <span class="comparison-box__label">of all U.S. incidents</span>
+                            </div>
+                            <div class="comparison-box__vs">vs.</div>
+                            <div class="comparison-box__item">
+                                <span class="comparison-box__number">11.3%</span>
+                                <span class="comparison-box__label">of pipeline miles</span>
+                            </div>
+                        </div>
+                        <p><strong>2,881 incidents</strong> in Texas since 2010, out of 9,329 total nationwide.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="safety-comparison">
+                    <div class="step__content">
+                        <h3>Texas vs. National Rate</h3>
+                        <p>When normalized by pipeline mileage, Texas experiences incidents at nearly <strong>3x the national average rate</strong>.</p>
+                        <p>Possible factors include aging infrastructure, high throughput, and regulatory environment.</p>
+                        <p class="source">Sources: <a href="https://www.phmsa.dot.gov/data-and-statistics/pipeline/pipeline-incident-20-year-trends" target="_blank" rel="noopener">PHMSA Pipeline Incident 20 Year Trends</a>, <a href="https://www.fractracker.org/2025/04/pipeline-incidents-are-a-daily-occurrence/" target="_blank" rel="noopener">FracTracker Alliance</a></p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Tank Farms and Storage -->
+        <section class="section section--scrolly" id="section-storage" data-section="storage">
+            <div class="scrolly__sticky">
+                <div class="infographic-container" id="storage-infographic">
+                    <!-- Infographic will be rendered here -->
+                    <div class="storage-diagram">
+                        <div class="storage-title">Major U.S. Oil Storage Hubs</div>
+                        <div class="storage-map" id="storage-map"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scrolly__steps">
+                <article class="step" data-step="storage-intro">
+                    <div class="step__content">
+                        <h2>Tank Farms and Storage</h2>
+                        <p>Oil storage facilities are critical nodes in the petroleum supply chain, holding crude oil between extraction and refining, and refined products before distribution.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="storage-cushing">
+                    <div class="step__content">
+                        <h3>Cushing, Oklahoma</h3>
+                        <p><strong>"Pipeline Crossroads of the World"</strong></p>
+                        <div class="data-callout data-callout--small">
+                            <div class="data-callout__number">90M</div>
+                            <div class="data-callout__label">barrel storage capacity</div>
+                        </div>
+                        <p>Cushing serves as the delivery point for West Texas Intermediate (WTI) crude oil futures, making it the pricing benchmark for American oil.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="storage-nederland">
+                    <div class="step__content">
+                        <h3>Nederland Terminal, Texas</h3>
+                        <div class="data-callout data-callout--small">
+                            <div class="data-callout__number">33M</div>
+                            <div class="data-callout__label">barrels</div>
+                        </div>
+                        <p>The largest single-owned crude terminal in the United States, connected to multiple pipeline systems and the Port Arthur refinery complex.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="storage-loop">
+                    <div class="step__content">
+                        <h3>LOOP/Clovelly, Louisiana</h3>
+                        <div class="data-callout data-callout--small">
+                            <div class="data-callout__number">40M</div>
+                            <div class="data-callout__label">barrels in salt cavern storage</div>
+                        </div>
+                        <p>The Louisiana Offshore Oil Port (LOOP) is the only U.S. port capable of handling Ultra Large Crude Carriers. Clovelly's salt cavern storage serves as the primary gateway for imported crude.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="storage-houston">
+                    <div class="step__content">
+                        <h3>Houston Ship Channel</h3>
+                        <div class="data-callout data-callout--small">
+                            <div class="data-callout__number">16M+</div>
+                            <div class="data-callout__label">barrels at Houston Fuel Oil Terminal</div>
+                        </div>
+                        <p>The Houston Ship Channel hosts multiple major terminals serving the largest concentration of refineries in the Western Hemisphere.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="storage-ingleside">
+                    <div class="step__content">
+                        <h3>Enbridge Ingleside Energy Center</h3>
+                        <div class="data-callout data-callout--small">
+                            <div class="data-callout__number">17.6M</div>
+                            <div class="data-callout__label">barrels</div>
+                        </div>
+                        <p>The largest crude oil export terminal in the United States, handling approximately <strong>25% of all Gulf Coast crude exports</strong>.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="storage-spr">
+                    <div class="step__content">
+                        <h3>Strategic Petroleum Reserve</h3>
+                        <div class="data-callout data-callout--small">
+                            <div class="data-callout__number">714M</div>
+                            <div class="data-callout__label">barrel authorized capacity</div>
+                        </div>
+                        <p>The world's largest emergency oil supply, stored in salt caverns at 4 sites along the Texas and Louisiana Gulf Coast. Created after the 1973 oil embargo to buffer against supply disruptions.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- SECTION 5: California Deep Dive -->
+        <section class="section section--scrolly" id="section-california" data-section="california">
+            <div class="scrolly__sticky">
+                <div class="map-container" id="california-map">
+                    <div class="map-controls">
+                        <button class="map-control active" data-layer="all">All Infrastructure</button>
+                        <button class="map-control" data-layer="offshore">Offshore Platforms</button>
+                        <button class="map-control" data-layer="oilfields">Oil Fields</button>
+                        <button class="map-control" data-layer="refineries">Refineries</button>
+                        <button class="map-control" data-layer="terminals">Terminals</button>
+                    </div>
+                    <!-- California SVG map will be inserted here -->
+                    <div class="map-placeholder">
+                        <p>Loading California Infrastructure Map...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scrolly__steps">
+                <article class="step" data-step="ca-intro">
+                    <div class="step__content">
+                        <h2>California: A Fossil Fuel Paradox</h2>
+                        <p>Despite its aggressive climate policies, California remains deeply dependent on fossil fuel infrastructure. The state is both a major oil producer and a significant importer.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="ca-offshore">
+                    <div class="step__content">
+                        <h3>Offshore Platforms</h3>
+                        <p><strong>27 platforms</strong> operate in waters from Huntington Beach to Point Conception:</p>
+                        <ul>
+                            <li>23 federal waters platforms</li>
+                            <li>4 state waters platforms</li>
+                            <li>8 platforms no longer producing, awaiting decommissioning</li>
+                        </ul>
+                        <p><strong>ExxonMobil/Sable Offshore:</strong> Platforms Harmony, Heritage, and Hondo restarted in May 2025 after a 10-year shutdown following the 2015 Refugio spill.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="ca-platforms">
+                    <div class="step__content">
+                        <h3>Platform Operators</h3>
+                        <ul>
+                            <li><strong>Sable Offshore:</strong> Harmony, Heritage, Hondo</li>
+                            <li><strong>Freeport McMoRan:</strong> Harvest, Hermosa, Hidalgo, Irene</li>
+                            <li><strong>DCOR:</strong> Platforms A, B, C, Edith, Gilda, Gina, Habitat, Henry, Hillhouse</li>
+                        </ul>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="ca-kern">
+                    <div class="step__content">
+                        <h3>Kern County: California's Oil Powerhouse</h3>
+                        <p><strong>80-90% of California's onshore drilling</strong> occurs in Kern County. Four of the nation's top 7 producing fields are located here:</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="ca-fields">
+                    <div class="step__content">
+                        <h3>Major Kern County Oil Fields</h3>
+                        <ul>
+                            <li><strong>Midway-Sunset:</strong> Largest CA field, ~4 billion barrels cumulative, 27 billion barrels oil in place</li>
+                            <li><strong>South Belridge:</strong> 2+ billion barrels cumulative, 6,253 active wells</li>
+                            <li><strong>Kern River:</strong> 2 billion barrels cumulative, 9,183 active wells (Chevron)</li>
+                            <li><strong>Elk Hills:</strong> 2+ billion BOE, ~75 square miles</li>
+                        </ul>
+                        <p>Heavy oil extraction requires steam injection, consuming massive amounts of water from the State Water Project.</p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="ca-refineries">
+                    <div class="step__content">
+                        <h3>California Refineries</h3>
+                        <p>Down from ~50 in 1980 to <strong>9 active fuel-producing facilities</strong> as of January 2026:</p>
+                        <div class="refinery-list">
+                            <p><strong>Bay Area:</strong></p>
+                            <ul>
+                                <li>Chevron Richmond: 245K bpd</li>
+                                <li>PBF Martinez: 157K bpd</li>
+                                <li>Valero Benicia: 145K bpd (closing April 2026)</li>
+                            </ul>
+                            <p><strong>Los Angeles:</strong></p>
+                            <ul>
+                                <li>Marathon Carson: 363K bpd</li>
+                                <li>Chevron El Segundo: 269K bpd</li>
+                                <li>PBF Torrance: 155K bpd</li>
+                                <li>Phillips 66 Wilmington: 139K bpd (closing 2025)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="ca-capacity">
+                    <div class="step__content">
+                        <h3>Supply Gap</h3>
+                        <div class="comparison-box">
+                            <div class="comparison-box__item">
+                                <span class="comparison-box__number">1.5M</span>
+                                <span class="comparison-box__label">bpd refining capacity</span>
+                            </div>
+                            <div class="comparison-box__vs">vs.</div>
+                            <div class="comparison-box__item">
+                                <span class="comparison-box__number">1.78M</span>
+                                <span class="comparison-box__label">bpd demand</span>
+                            </div>
+                        </div>
+                        <p>The gap is filled by imports from Iraq, Ecuador, and Saudi Arabia. <strong>5 companies control 98%</strong> of California's gasoline refining capacity.</p>
+                        <p class="source">Sources: <a href="https://www.energy.ca.gov/data-reports/energy-almanac/californias-petroleum-market" target="_blank" rel="noopener">CA Energy Commission</a>, <a href="https://ww2.arb.ca.gov/resources/documents/california-refineries" target="_blank" rel="noopener">CARB</a></p>
+                    </div>
+                </article>
+                
+                <article class="step" data-step="ca-terminals">
+                    <div class="step__content">
+                        <h3>California Terminals</h3>
+                        <ul>
+                            <li><strong>Zenith Long Beach</strong></li>
+                            <li><strong>Zenith Dominguez Hills:</strong> 4 million barrel capacity</li>
+                            <li><strong>World Oil Marine Terminal</strong></li>
+                            <li><strong>Richmond Long Wharf</strong></li>
+                        </ul>
+                        <p>These facilities handle both crude imports and refined product distribution.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- SECTION 6: The Debunk / Conclusion -->
+        <section class="section section--conclusion" id="section-conclusion" data-section="conclusion">
+            <div class="section__content">
+                <div class="conclusion__text">
+                    <h2 class="fade-in">What the Data Reveals</h2>
+                    
+                    <div class="takeaway fade-in">
+                        <h3>Infrastructure Lock-in</h3>
+                        <p>The scale of existing fossil fuel infrastructure, over 2.8 million miles of pipeline based on decades of investment, creates powerful economic and political incentives to maintain the status quo. Transition timelines must account for this physical reality.</p>
+                    </div>
+                    
+                    <div class="takeaway fade-in">
+                        <h3>Environmental and Safety Costs</h3>
+                        <p>With 1.7 pipeline incidents per day on average, the operational costs of this infrastructure extend beyond economics. Communities along pipeline corridors bear disproportionate risk, particularly in Texas where incident rates far exceed the national average.</p>
+                    </div>
+                    
+                    <div class="takeaway fade-in">
+                        <h3>California's Paradox</h3>
+                        <p>California demonstrates the tension between climate ambition and energy reality. The state produces significant oil, operates 27 offshore platforms, and depends on foreign imports to meet demand, all while pursuing the nation's most aggressive decarbonization policies.</p>
+                    </div>
+                    
+                    <div class="takeaway fade-in">
+                        <h3>The Managed Transition</h3>
+                        <p>The data suggests that energy transition is not a simple switch but a complex, decades-long process of infrastructure evolution. Understanding the existing system is essential for planning realistic pathways forward.</p>
+                    </div>
+                    
+                    <div class="conclusion__cta fade-in">
+                        <p>The infrastructure documented here represents neither villain nor victim. It is simply what we built. What we build next is still being decided.</p>
+                    </div>
+                    
+                    <div class="explore-map fade-in">
+                        <a href="california-infrastructure-map.html" class="explore-map__link">
+                            <span class="explore-map__icon">🗺️</span>
+                            <span class="explore-map__text">
+                                <strong>Explore the Interactive Map</strong>
+                                <span>California's offshore platforms, oil fields, refineries, and pipelines</span>
+                            </span>
+                            <span class="explore-map__arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sources Footer -->
+        <footer class="sources-footer">
+            <div class="sources-footer__content">
+                <h3>Data Sources</h3>
+                <ul class="sources-list">
+                    <li><a href="https://www.phmsa.dot.gov/data-and-statistics/pipeline/pipeline-incident-20-year-trends" target="_blank" rel="noopener">PHMSA Pipeline Incident 20 Year Trends</a></li>
+                    <li><a href="https://www.phmsa.dot.gov/data-and-statistics/pipeline/national-pipeline-performance-measures" target="_blank" rel="noopener">PHMSA National Pipeline Performance Measures</a></li>
+                    <li><a href="https://www.phmsa.dot.gov/data-and-statistics/pipeline/source-data" target="_blank" rel="noopener">PHMSA Source Data</a></li>
+                    <li><a href="https://pvnpms.phmsa.dot.gov/PublicViewer/" target="_blank" rel="noopener">PHMSA National Pipeline Mapping System</a></li>
+                    <li><a href="https://www.fractracker.org/2025/04/pipeline-incidents-are-a-daily-occurrence/" target="_blank" rel="noopener">FracTracker Pipeline Incidents Analysis</a></li>
+                    <li><a href="https://pstrust.org/state-by-state-incident-maps/" target="_blank" rel="noopener">Pipeline Safety Trust Dashboard</a></li>
+                    <li><a href="https://atlas.eia.gov/maps/eia::crude-oil-pipelines/explore" target="_blank" rel="noopener">EIA Crude Oil Pipelines</a></li>
+                    <li><a href="https://www.bts.gov/geography/geospatial-portal/us-petroleum-and-natural-gas-pipelines-2019" target="_blank" rel="noopener">Bureau of Transportation Statistics Pipeline Maps</a></li>
+                    <li><a href="https://www.bsee.gov/stats-facts/ocs-regions/pacific/pacific-ocs-platforms" target="_blank" rel="noopener">BSEE Pacific OCS Platforms</a></li>
+                    <li><a href="https://www.slc.ca.gov/oil-gas/" target="_blank" rel="noopener">CA State Lands Commission Oil &amp; Gas</a></li>
+                    <li><a href="https://maps.conservation.ca.gov/oilgas/" target="_blank" rel="noopener">CalGEM Oil &amp; Gas Maps</a></li>
+                    <li><a href="https://www.energy.ca.gov/data-reports/energy-almanac/californias-petroleum-market" target="_blank" rel="noopener">CA Energy Commission Petroleum Market</a></li>
+                    <li><a href="https://ww2.arb.ca.gov/resources/documents/california-refineries" target="_blank" rel="noopener">CARB California Refineries</a></li>
+                    <li><a href="https://globalenergymonitor.org/projects/global-oil-infrastructure-tracker/" target="_blank" rel="noopener">Global Energy Monitor Oil Infrastructure Tracker</a></li>
+                </ul>
+                <p class="sources-footer__note">This project is for educational purposes. Data reflects publicly available information from government agencies and research organizations.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- External Libraries (CDN) -->
+    <script src="https://unpkg.com/scrollama"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/intersection-observer@0.12.2/intersection-observer.js"></script>
+    
+    <!-- Local Scripts -->
+    <script src="js/charts.js"></script>
+    <script src="js/maps.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

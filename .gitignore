@@ -1,0 +1,9 @@
+# OneDrive sync artifacts
+desktop.ini
+*.lnk
+~$*
+.~lock.*
+Thumbs.db
+
+# OS
+.DS_Store

@@ -1,0 +1,252 @@
+{
+  "metadata": {
+    "title": "U.S. Offshore Oil Platform Data",
+    "sources": [
+      "Bureau of Safety and Environmental Enforcement (BSEE)",
+      "Bureau of Ocean Energy Management (BOEM)",
+      "Energy Information Administration (EIA)"
+    ],
+    "sourceUrls": {
+      "bsee": "https://www.bsee.gov/stats-facts/offshore-stats-and-facts",
+      "boem": "https://www.boem.gov/oil-gas-energy/leasing",
+      "eia": "https://www.eia.gov/dnav/pet/pet_crd_crpdn_adc_mbblpd_a.htm"
+    },
+    "lastUpdated": "2026-01"
+  },
+  "summary": {
+    "totalUSPlatforms": 1900,
+    "gulfOfMexicoPlatforms": 1862,
+    "pacificPlatforms": 23,
+    "alaskaPlatforms": 17,
+    "totalOffshoreProductionBpd": 1900000,
+    "percentOfUSProduction": 15
+  },
+  "gulfOfMexico": {
+    "region": "Western and Central Planning Areas",
+    "activePlatforms": 1862,
+    "fixedPlatforms": 1700,
+    "floatingStructures": 50,
+    "subseaCompletions": 3500,
+    "production": {
+      "oilBpd": 1800000,
+      "gasMMcfd": 2100,
+      "percentUSOffshore": 97,
+      "percentUSCrude": 15
+    },
+    "reserves": {
+      "provenOilBbl": 4700000000,
+      "provenGasTcf": 15.4,
+      "undiscoveredOilBbl": 48000000000,
+      "undiscoveredGasTcf": 141
+    },
+    "leasing": {
+      "activeLeases": 2700,
+      "acreage": 14700000,
+      "waterDepthRange": "10 to 10,000+ feet"
+    },
+    "infrastructure": {
+      "pipelineMiles": 8600,
+      "helicopterFlightsAnnually": 600000,
+      "supplyBoatTripsAnnually": 50000
+    },
+    "majorOperators": [
+      { "name": "Shell", "productionBpd": 400000, "share": "22%" },
+      { "name": "BP", "productionBpd": 300000, "share": "17%" },
+      { "name": "Chevron", "productionBpd": 250000, "share": "14%" },
+      { "name": "ExxonMobil", "productionBpd": 150000, "share": "8%" },
+      { "name": "Murphy Oil", "productionBpd": 100000, "share": "6%" }
+    ]
+  },
+  "majorDeepwaterPlatforms": [
+    {
+      "name": "Thunder Horse",
+      "operator": "BP",
+      "type": "Semi-submersible",
+      "waterDepthFt": 6050,
+      "capacityBpd": 250000,
+      "startYear": 2008,
+      "location": "Mississippi Canyon"
+    },
+    {
+      "name": "Atlantis",
+      "operator": "BP",
+      "type": "Semi-submersible",
+      "waterDepthFt": 7070,
+      "capacityBpd": 200000,
+      "startYear": 2007,
+      "location": "Green Canyon"
+    },
+    {
+      "name": "Mars",
+      "operator": "Shell",
+      "type": "Tension Leg Platform",
+      "waterDepthFt": 2940,
+      "capacityBpd": 130000,
+      "startYear": 1996,
+      "location": "Mississippi Canyon"
+    },
+    {
+      "name": "Ursa",
+      "operator": "Shell",
+      "type": "Tension Leg Platform",
+      "waterDepthFt": 3950,
+      "capacityBpd": 100000,
+      "startYear": 1999,
+      "location": "Mississippi Canyon"
+    },
+    {
+      "name": "Perdido",
+      "operator": "Shell",
+      "type": "Spar",
+      "waterDepthFt": 9627,
+      "capacityBpd": 130000,
+      "startYear": 2010,
+      "location": "Alaminos Canyon",
+      "note": "World's deepest spar platform"
+    },
+    {
+      "name": "Mad Dog Phase 2",
+      "operator": "BP",
+      "type": "Semi-submersible",
+      "waterDepthFt": 4500,
+      "capacityBpd": 140000,
+      "startYear": 2023,
+      "location": "Green Canyon"
+    },
+    {
+      "name": "Anchor",
+      "operator": "Chevron",
+      "type": "Semi-submersible",
+      "waterDepthFt": 5200,
+      "capacityBpd": 75000,
+      "startYear": 2024,
+      "location": "Green Canyon",
+      "note": "Industry-first 20,000 psi technology"
+    },
+    {
+      "name": "Appomattox",
+      "operator": "Shell",
+      "type": "Semi-submersible",
+      "waterDepthFt": 7400,
+      "capacityBpd": 175000,
+      "startYear": 2019,
+      "location": "Mississippi Canyon"
+    },
+    {
+      "name": "Jack/St. Malo",
+      "operator": "Chevron",
+      "type": "Semi-submersible",
+      "waterDepthFt": 7000,
+      "capacityBpd": 170000,
+      "startYear": 2014,
+      "location": "Walker Ridge"
+    },
+    {
+      "name": "Tahiti",
+      "operator": "Chevron",
+      "type": "Spar",
+      "waterDepthFt": 4100,
+      "capacityBpd": 125000,
+      "startYear": 2009,
+      "location": "Green Canyon"
+    }
+  ],
+  "platformTypes": {
+    "fixed": {
+      "description": "Steel or concrete structures anchored to seafloor",
+      "depthLimit": "1,500 feet typical",
+      "count": 1700,
+      "examples": ["Shelf platforms", "Compliant towers"]
+    },
+    "floating": {
+      "description": "Floating structures moored to seafloor",
+      "depthRange": "1,000 to 10,000+ feet",
+      "types": [
+        { "name": "Tension Leg Platform (TLP)", "count": 14 },
+        { "name": "Spar", "count": 12 },
+        { "name": "Semi-submersible", "count": 20 },
+        { "name": "FPSO", "count": 4 }
+      ]
+    },
+    "subsea": {
+      "description": "Wellheads on seafloor tied back to host platforms",
+      "count": 3500,
+      "maxTiebackMiles": 30
+    }
+  },
+  "pacificOCS": {
+    "totalPlatforms": 23,
+    "federalWaters": 23,
+    "stateWaters": 4,
+    "activelyProducing": 19,
+    "production": {
+      "oilBpd": 25000,
+      "percentUSOffshore": 1.3
+    },
+    "status": "No new leasing since 1984 federal moratorium",
+    "operators": ["Sable Offshore", "Freeport McMoRan", "DCOR"],
+    "majorIncidents": [
+      { "year": 1969, "event": "Santa Barbara oil spill, Platform A" },
+      { "year": 2015, "event": "Refugio oil spill, pipeline rupture" },
+      { "year": 2021, "event": "Huntington Beach spill, pipeline anchor strike" }
+    ]
+  },
+  "alaskaOCS": {
+    "regions": {
+      "beaufortSea": {
+        "productionIslands": 2,
+        "names": ["Endicott", "Northstar"],
+        "productionBpd": 50000
+      },
+      "cookInlet": {
+        "platforms": 15,
+        "productionBpd": 15000,
+        "status": "Declining mature field"
+      },
+      "chukchiSea": {
+        "status": "No production, exploration halted",
+        "estimatedReserves": "Billions of barrels potential"
+      }
+    },
+    "technicallyRecoverableReserves": {
+      "oilBbl": 23600000000,
+      "gasTcf": 104
+    },
+    "challenges": [
+      "Extreme weather and ice conditions",
+      "Remote location, limited infrastructure",
+      "Environmental sensitivity",
+      "High development costs ($10B+ per project)"
+    ]
+  },
+  "historicalContext": {
+    "firstOffshoreWell": {
+      "year": 1947,
+      "location": "Ship Shoal Block 32, Gulf of Mexico",
+      "operator": "Kerr-McGee"
+    },
+    "firstDeepwaterProduction": {
+      "year": 1979,
+      "platform": "Cognac",
+      "depth": 1025
+    },
+    "deepwaterMilestones": [
+      { "year": 1994, "event": "Auger TLP, first deepwater TLP (2,860 ft)" },
+      { "year": 1996, "event": "Mars TLP begins production" },
+      { "year": 2010, "event": "Perdido Spar, world's deepest (9,627 ft)" },
+      { "year": 2010, "event": "Deepwater Horizon disaster, 87-day spill" },
+      { "year": 2024, "event": "Anchor platform, first 20,000 psi system" }
+    ]
+  },
+  "drillingCosts": {
+    "shallowWater": {
+      "wellCost": "10-30 million USD",
+      "platformCost": "100-500 million USD"
+    },
+    "deepwater": {
+      "wellCost": "100-200 million USD",
+      "platformCost": "1-10 billion USD",
+      "dailyRigRate": "300,000-500,000 USD"
+    }
+  }
+}

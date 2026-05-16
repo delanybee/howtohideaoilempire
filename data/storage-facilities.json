@@ -1,0 +1,147 @@
+{
+  "metadata": {
+    "title": "U.S. Oil Storage Facilities",
+    "sources": [
+      "EIA Petroleum Storage Capacity",
+      "Company filings and reports",
+      "Bureau of Transportation Statistics"
+    ],
+    "lastUpdated": "2025-04"
+  },
+  "majorHubs": [
+    {
+      "id": "cushing",
+      "name": "Cushing, Oklahoma",
+      "nickname": "Pipeline Crossroads of the World",
+      "capacity": {
+        "barrels": 90000000,
+        "formatted": "90M barrels"
+      },
+      "significance": "WTI crude oil futures delivery point and pricing benchmark",
+      "coordinates": {
+        "lat": 35.9846,
+        "lng": -96.7700
+      },
+      "connectedPipelines": ["Keystone", "Seaway", "Spearhead", "Flanagan South"],
+      "operators": ["Enterprise", "Enbridge", "Plains", "Magellan"]
+    },
+    {
+      "id": "nederland",
+      "name": "Nederland Terminal, Texas",
+      "capacity": {
+        "barrels": 33000000,
+        "formatted": "33M barrels"
+      },
+      "significance": "Largest single-owned crude terminal in the U.S.",
+      "coordinates": {
+        "lat": 29.9744,
+        "lng": -94.0027
+      },
+      "connectedPipelines": ["Permian Basin systems"],
+      "nearbyRefineries": ["Port Arthur complex"]
+    },
+    {
+      "id": "loop-clovelly",
+      "name": "LOOP/Clovelly Hub, Louisiana",
+      "capacity": {
+        "barrels": 40000000,
+        "formatted": "40M barrels"
+      },
+      "storageType": "Salt cavern",
+      "significance": "Primary U.S. import gateway, only port handling ULCCs",
+      "coordinates": {
+        "lat": 29.1772,
+        "lng": -90.0011
+      },
+      "features": ["Deepwater offshore platform", "Onshore salt dome storage"]
+    },
+    {
+      "id": "houston-ship-channel",
+      "name": "Houston Fuel Oil Terminal",
+      "capacity": {
+        "barrels": 16000000,
+        "formatted": "16M+ barrels"
+      },
+      "location": "Houston Ship Channel",
+      "coordinates": {
+        "lat": 29.7355,
+        "lng": -95.0705
+      },
+      "significance": "Serves largest refinery concentration in Western Hemisphere"
+    },
+    {
+      "id": "ingleside",
+      "name": "Enbridge Ingleside Energy Center",
+      "capacity": {
+        "barrels": 17600000,
+        "formatted": "17.6M barrels"
+      },
+      "coordinates": {
+        "lat": 27.8283,
+        "lng": -97.1950
+      },
+      "significance": "Largest crude oil export terminal in U.S.",
+      "exportShare": "~25% of Gulf Coast crude exports",
+      "features": ["VLCC capable", "Direct pipeline access to Permian Basin"]
+    }
+  ],
+  "strategicPetroleumReserve": {
+    "authorizedCapacity": {
+      "barrels": 714000000,
+      "formatted": "714M barrels"
+    },
+    "storageType": "Salt caverns",
+    "purpose": "Emergency oil supply buffer against supply disruptions",
+    "established": 1975,
+    "sites": [
+      {
+        "name": "Bryan Mound",
+        "state": "Texas",
+        "capacity": 226000000,
+        "coordinates": { "lat": 29.0550, "lng": -95.6350 }
+      },
+      {
+        "name": "Big Hill",
+        "state": "Texas",
+        "capacity": 170000000,
+        "coordinates": { "lat": 29.6500, "lng": -94.3500 }
+      },
+      {
+        "name": "West Hackberry",
+        "state": "Louisiana",
+        "capacity": 227000000,
+        "coordinates": { "lat": 30.0500, "lng": -93.4800 }
+      },
+      {
+        "name": "Bayou Choctaw",
+        "state": "Louisiana",
+        "capacity": 76000000,
+        "coordinates": { "lat": 30.4000, "lng": -91.1500 }
+      }
+    ]
+  },
+  "californiaTerminals": [
+    {
+      "name": "Zenith Long Beach",
+      "type": "Marine terminal",
+      "coordinates": { "lat": 33.7701, "lng": -118.2137 }
+    },
+    {
+      "name": "Zenith Dominguez Hills",
+      "capacity": {
+        "barrels": 4000000,
+        "formatted": "4M barrels"
+      },
+      "coordinates": { "lat": 33.8756, "lng": -118.2431 }
+    },
+    {
+      "name": "World Oil Marine Terminal",
+      "coordinates": { "lat": 33.7650, "lng": -118.2100 }
+    },
+    {
+      "name": "Richmond Long Wharf",
+      "operator": "Chevron",
+      "coordinates": { "lat": 37.9150, "lng": -122.3800 }
+    }
+  ]
+}
