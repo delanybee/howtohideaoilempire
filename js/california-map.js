@@ -24,6 +24,12 @@
     // Move zoom control to bottom right
     map.zoomControl.setPosition('bottomright');
     
+    // Scale bar — shows miles/km, helps readers gauge offshore distances
+    L.control.scale({ imperial: true, metric: true, position: 'bottomleft' }).addTo(map);
+    
+    // Constrain map to California + offshore buffer
+    map.setMaxBounds([[32.0, -125.5], [42.5, -113.5]]);
+    
     // ================================================================
     // BASE LAYERS
     // ================================================================
@@ -550,6 +556,54 @@
             });
         }
     });
+    
+    // ================================================================
+    // INCIDENT HEATMAP (Leaflet.heat)
+    // ================================================================
+    
+    const heatPoints = [];
+    
+    // Weight platforms by spill/incident severity
+    CALIFORNIA_DATA.platforms.forEach(p => {
+        const s = p.status || '';
+        if (s.startsWith('Damaged'))           heatPoints.push([p.lat, p.lng, 1.0]);
+        else if (s.includes('Rupture'))        heatPoints.push([p.lat, p.lng, 0.8]);
+        else if (s.startsWith('Shut-in'))      heatPoints.push([p.lat, p.lng, 0.4]);
+    });
+    
+    // Historical California oil incident hotspots (approximate coords)
+    [
+        [34.46, -120.07, 1.0],  // 2015 Refugio beach pipeline rupture
+        [33.63, -118.00, 1.0],  // 2021 Huntington Beach anchor damage
+        [34.42, -119.69, 0.9],  // 1969 Santa Barbara Platform A blowout
+        [37.90, -122.34, 0.8],  // 2012 Chevron Richmond refinery fire
+        [38.02, -122.12, 0.7],  // 2010 Tesoro Martinez refinery explosion
+        [33.84, -118.28, 0.8],  // Carson refinery cluster (Tesoro, BP)
+        [33.92, -118.42, 0.7],  // El Segundo Chevron refinery
+        [35.37, -119.02, 0.9],  // Kern River / Bakersfield production zone
+        [35.57, -119.38, 0.9],  // Midway-Sunset field (largest US oil field)
+        [35.68, -119.55, 0.7],  // Belridge South field
+        [33.80, -118.18, 0.5],  // Signal Hill / Long Beach oil district
+        [33.75, -118.22, 0.4],  // Terminal Island refineries
+        [34.05, -118.23, 0.5],  // LA basin urban drilling
+        [38.44, -121.69, 0.3],  // Sacramento natural gas corridor
+    ].forEach(p => heatPoints.push(p));
+    
+    const heatmapLayer = L.heatLayer(heatPoints, {
+        radius: 45,
+        blur: 30,
+        maxZoom: 10,
+        max: 1.0,
+        gradient: { 0.2: '#4a1042', 0.5: '#8b1a1a', 0.75: '#e74c3c', 1.0: '#ff4444' }
+    });
+    
+    const heatCheckbox = document.getElementById('layer-heatmap');
+    if (heatCheckbox) {
+        heatCheckbox.addEventListener('change', (e) => {
+            if (e.target.checked) map.addLayer(heatmapLayer);
+            else map.removeLayer(heatmapLayer);
+        });
+    }
     
     // ================================================================
     // BASE MAP TOGGLE

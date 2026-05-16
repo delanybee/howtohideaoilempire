@@ -987,6 +987,22 @@
             </div>
             
             <div class="layer-group">
+                <div class="layer-group__title">Analysis</div>
+                
+                <label class="layer-toggle" style="--layer-color: #e74c3c">
+                    <input type="checkbox" id="layer-heatmap">
+                    <span class="layer-toggle__checkbox"></span>
+                    <div class="layer-toggle__info">
+                        <div class="layer-toggle__name">
+                            <span class="layer-toggle__icon"></span>
+                            Incident Density
+                        </div>
+                        <div class="layer-toggle__count">Historical spill &amp; incident hotspots</div>
+                    </div>
+                </label>
+            </div>
+            
+            <div class="layer-group">
                 <div class="layer-group__title">Platform Status Filter</div>
                 <div class="status-filters">
                     <button class="status-filter active" data-status="all">All</button>
@@ -1122,6 +1138,13 @@
                 <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#e74c3c" stroke-width="1.5" opacity="0.7"/><circle cx="8" cy="8" r="3.5" fill="#e74c3c" opacity="0.6"/></svg>
                 <span style="color:rgba(231,76,60,0.9)">Active Incident</span>
             </div>
+            <div class="legend__item legend__item--separator">
+                <svg width="20" height="10" viewBox="0 0 20 10">
+                    <defs><linearGradient id="heat-grad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#4a1042"/><stop offset="50%" stop-color="#e74c3c"/><stop offset="100%" stop-color="#ff4444"/></linearGradient></defs>
+                    <rect width="20" height="10" rx="2" fill="url(#heat-grad)"/>
+                </svg>
+                <span>Incident Density</span>
+            </div>
         </div>
     </div>
     
@@ -1131,6 +1154,9 @@
     
     <!-- Marker Cluster -->
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    
+    <!-- Leaflet.heat - incident density heatmap -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
     
     <!-- Map Data -->
     <script src="js/california-map-data.js"></script>
@@ -1151,7 +1177,8 @@
         // Show All / Hide All layer checkboxes
         const layerCheckboxIds = [
             'layer-platforms', 'layer-offshore-pipelines', 'layer-oilfields',
-            'layer-basins', 'layer-refineries', 'layer-terminals', 'layer-pipelines'
+            'layer-basins', 'layer-refineries', 'layer-terminals', 'layer-pipelines',
+            'layer-heatmap'
         ];
         
         document.getElementById('btn-show-all').addEventListener('click', () => {
