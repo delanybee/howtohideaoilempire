@@ -114,6 +114,8 @@
         platforms: L.layerGroup(),
         offshorePipelines: L.layerGroup(),
         oilfields: L.layerGroup(),
+        oilFieldExtents: L.layerGroup(),  // polygon footprints
+        urbanWells: L.layerGroup(),       // urban drilling sites
         basins: L.layerGroup(),
         refineries: L.layerGroup(),
         terminals: L.layerGroup(),
@@ -123,6 +125,7 @@
     // Add default layers to map
     layers.platforms.addTo(map);
     layers.offshorePipelines.addTo(map);
+    layers.oilFieldExtents.addTo(map);  // on by default — tells the visual story
     layers.oilfields.addTo(map);
     layers.refineries.addTo(map);
     layers.terminals.addTo(map);
@@ -359,6 +362,95 @@
         layers.basins.addLayer(polygon);
         allFeatures.push({ marker: polygon, data: basin, type: 'Basin' });
     });
+
+    // ================================================================
+    // OIL FIELD EXTENT POLYGONS
+    // Shows the actual geographic footprint of each field — not just
+    // a point marker but the land area that has been drilled.
+    // ================================================================
+
+    // Build a lookup so we can pull field names from the oilFields array
+    const oilFieldLookup = {};
+    CALIFORNIA_DATA.oilFields.forEach(f => { oilFieldLookup[f.id] = f; });
+
+    (CALIFORNIA_DATA.oilFieldExtents || []).forEach(ext => {
+        const fieldData = oilFieldLookup[ext.fieldId];
+
+        const polygon = L.polygon(ext.bounds, {
+            color: '#c0874f',
+            weight: 1.5,
+            fillColor: '#c0874f',
+            fillOpacity: 0.18,
+            dashArray: '5, 4'
+        });
+
+        polygon.on('mouseover', () => {
+            polygon.setStyle({ fillOpacity: 0.32, weight: 2.5 });
+        });
+        polygon.on('mouseout', () => {
+            polygon.setStyle({ fillOpacity: 0.18, weight: 1.5 });
+        });
+
+        const tooltipName = fieldData ? fieldData.name : ext.name;
+        polygon.bindTooltip(tooltipName, { permanent: false, sticky: true });
+
+        if (fieldData) {
+            polygon.on('click', () => showInfoPanel(fieldData, 'Oil Field'));
+        }
+
+        layers.oilFieldExtents.addLayer(polygon);
+    });
+
+    // ================================================================
+    // URBAN DRILLING SITES
+    // Active oil wells within or adjacent to residential California.
+    // Pulsing amber markers + proximity circles make density visceral.
+    // ================================================================
+
+    (CALIFORNIA_DATA.urbanWells || []).forEach(well => {
+        // Proximity impact circle — how much urban space is affected
+        const circle = L.circle([well.lat, well.lng], {
+            radius: 900,
+            color: '#e67e22',
+            weight: 1,
+            fillColor: '#e67e22',
+            fillOpacity: 0.07,
+            dashArray: '4, 6',
+            interactive: false
+        });
+        layers.urbanWells.addLayer(circle);
+
+        // Pulse ring
+        const pulseIcon = L.divIcon({
+            className: '',
+            html: `<div class="urban-pulse-ring"></div>`,
+            iconSize: [40, 40],
+            iconAnchor: [20, 20]
+        });
+        const pulseMarker = L.marker([well.lat, well.lng], {
+            icon: pulseIcon,
+            interactive: false,
+            zIndexOffset: -50
+        });
+        layers.urbanWells.addLayer(pulseMarker);
+
+        // Clickable marker
+        const marker = L.marker([well.lat, well.lng], {
+            icon: createIcon('#e67e22', 'circle', 13)
+        });
+
+        marker.bindTooltip(`<b>${well.name}</b><br><span style="color:#e67e22;font-size:0.75em">⚠ ${well.activeWells.toLocaleString()} active wells</span>`, {
+            direction: 'top',
+            offset: [0, -10]
+        });
+
+        marker.on('click', () => showInfoPanel(well, 'Urban Drilling'));
+        marker.on('mouseover', () => marker.setIcon(createLargeIcon('#e67e22', 'circle', 18)));
+        marker.on('mouseout', () => marker.setIcon(createIcon('#e67e22', 'circle', 13)));
+
+        layers.urbanWells.addLayer(marker);
+        allFeatures.push({ marker, data: well, type: 'Urban Drilling' });
+    });
     
     // ================================================================
     // INFO PANEL
@@ -502,6 +594,25 @@
                     <div class="info-panel__datum-label">Est. Oil in Place</div>
                 </div>
             `;
+        } else if (type === 'Urban Drilling') {
+            dataHtml = `
+                <div class="info-panel__datum">
+                    <div class="info-panel__datum-value" style="color:#e67e22">${feature.activeWells.toLocaleString()}</div>
+                    <div class="info-panel__datum-label">Active Wells</div>
+                </div>
+                <div class="info-panel__datum">
+                    <div class="info-panel__datum-value">${feature.operator}</div>
+                    <div class="info-panel__datum-label">Primary Operator</div>
+                </div>
+                <div class="info-panel__datum">
+                    <div class="info-panel__datum-value">${feature.status}</div>
+                    <div class="info-panel__datum-label">Status</div>
+                </div>
+                <div class="info-panel__datum" style="grid-column:1/-1">
+                    <div class="info-panel__datum-value" style="font-size:0.75rem;color:#e67e22;font-weight:normal">${feature.proximity}</div>
+                    <div class="info-panel__datum-label">Proximity</div>
+                </div>
+            `;
         }
         
         infoData.innerHTML = dataHtml;
@@ -538,6 +649,8 @@
         'layer-platforms': layers.platforms,
         'layer-offshore-pipelines': layers.offshorePipelines,
         'layer-oilfields': layers.oilfields,
+        'layer-oil-field-extents': layers.oilFieldExtents,
+        'layer-urban-wells': layers.urbanWells,
         'layer-basins': layers.basins,
         'layer-refineries': layers.refineries,
         'layer-terminals': layers.terminals,

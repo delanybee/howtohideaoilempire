@@ -598,6 +598,25 @@
             0%   { transform: scale(0.5); opacity: 1; }
             100% { transform: scale(1.6); opacity: 0; }
         }
+
+        /* ============================================
+           URBAN WELL PULSE RINGS
+           Amber pulsing rings for urban drilling sites
+           ============================================ */
+        .urban-pulse-ring {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(230, 126, 34, 0.7);
+            background: rgba(230, 126, 34, 0.06);
+            animation: urban-pulse 2.8s ease-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes urban-pulse {
+            0%   { transform: scale(0.4); opacity: 1; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
         
         /* ============================================
            STATS BAR
@@ -932,6 +951,30 @@
                         <div class="layer-toggle__count">Top 20 producing fields</div>
                     </div>
                 </label>
+
+                <label class="layer-toggle" style="--layer-color: #c0874f">
+                    <input type="checkbox" id="layer-oil-field-extents" checked>
+                    <span class="layer-toggle__checkbox"></span>
+                    <div class="layer-toggle__info">
+                        <div class="layer-toggle__name">
+                            <span class="layer-toggle__icon"></span>
+                            Field Footprints
+                        </div>
+                        <div class="layer-toggle__count">Geographic extent of each field</div>
+                    </div>
+                </label>
+
+                <label class="layer-toggle" style="--layer-color: #e67e22">
+                    <input type="checkbox" id="layer-urban-wells" checked>
+                    <span class="layer-toggle__checkbox"></span>
+                    <div class="layer-toggle__info">
+                        <div class="layer-toggle__name">
+                            <span class="layer-toggle__icon"></span>
+                            Urban Drilling Sites
+                        </div>
+                        <div class="layer-toggle__count">Wells inside cities &amp; neighborhoods</div>
+                    </div>
+                </label>
                 
                 <label class="layer-toggle" style="--layer-color: var(--color-lease)">
                     <input type="checkbox" id="layer-basins">
@@ -1134,6 +1177,14 @@
                 <svg width="16" height="16" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="14" rx="2" fill="rgba(243,156,18,0.15)" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="4,3"/></svg>
                 <span>Geological Basin</span>
             </div>
+            <div class="legend__item">
+                <svg width="16" height="16" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="14" rx="2" fill="rgba(192,135,79,0.2)" stroke="#c0874f" stroke-width="1.5" stroke-dasharray="5,4"/></svg>
+                <span>Field Footprint</span>
+            </div>
+            <div class="legend__item">
+                <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="rgba(230,126,34,0.6)" stroke-width="1.5" stroke-dasharray="4,6"/><circle cx="8" cy="8" r="3.5" fill="#e67e22" opacity="0.9"/></svg>
+                <span style="color:rgba(230,126,34,0.9)">Urban Drilling</span>
+            </div>
             <div class="legend__item legend__item--separator">
                 <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#e74c3c" stroke-width="1.5" opacity="0.7"/><circle cx="8" cy="8" r="3.5" fill="#e74c3c" opacity="0.6"/></svg>
                 <span style="color:rgba(231,76,60,0.9)">Active Incident</span>
@@ -1177,6 +1228,7 @@
         // Show All / Hide All layer checkboxes
         const layerCheckboxIds = [
             'layer-platforms', 'layer-offshore-pipelines', 'layer-oilfields',
+            'layer-oil-field-extents', 'layer-urban-wells',
             'layer-basins', 'layer-refineries', 'layer-terminals', 'layer-pipelines',
             'layer-heatmap'
         ];

@@ -1076,6 +1076,120 @@ const CALIFORNIA_DATA = {
             diameter: "Various",
             description: "Network of gathering pipelines in the San Joaquin Valley connecting production from major fields like Midway-Sunset, South Belridge, and Kern River to trunk lines.",
             source: "CalGEM"
+        },
+        {
+            id: "pipeline-bay-area-crude",
+            name: "Central Valley to Bay Area Crude Line",
+            operator: "Chevron Pipe Line",
+            type: "crude-oil",
+            coordinates: [
+                [35.4167, -118.9667],
+                [35.8000, -119.2000],
+                [36.2000, -119.6000],
+                [36.8000, -120.1000],
+                [37.2000, -121.0000],
+                [37.6000, -121.7000],
+                [37.9100, -122.3600],
+                [38.0250, -122.1150]
+            ],
+            capacity: 250000,
+            length: 280,
+            diameter: "20 inch",
+            description: "Major crude pipeline corridor connecting San Joaquin Valley production to Bay Area refineries at Richmond, Rodeo, Martinez, and Benicia.",
+            source: "PHMSA, Chevron"
+        },
+        {
+            id: "pipeline-la-basin-crude",
+            name: "LA Basin Crude Gathering Network",
+            operator: "California Resources Corporation",
+            type: "crude-oil",
+            coordinates: [
+                [33.7800, -118.1750],
+                [33.8000, -118.2200],
+                [33.8400, -118.2700],
+                [33.8700, -118.3200],
+                [33.9050, -118.4300]
+            ],
+            capacity: 80000,
+            length: 22,
+            diameter: "12 inch",
+            description: "Crude gathering network connecting Wilmington, Long Beach, and Signal Hill urban oil fields to the El Segundo refinery complex via a subsurface pipeline corridor through south Los Angeles.",
+            source: "PHMSA, CalGEM"
+        },
+        {
+            id: "pipeline-ventura-la",
+            name: "Ventura Basin to LA Refinery Line",
+            operator: "Plains All American",
+            type: "crude-oil",
+            coordinates: [
+                [34.2967, -119.2767],
+                [34.2200, -119.0500],
+                [34.2000, -118.8800],
+                [34.1200, -118.6800],
+                [33.9400, -118.3900],
+                [33.8700, -118.3200]
+            ],
+            capacity: 90000,
+            length: 65,
+            diameter: "16 inch",
+            description: "Crude oil line connecting Ventura Basin production through the Santa Monica Mountains corridor to the Carson/Torrance refinery cluster.",
+            source: "PHMSA"
+        },
+        {
+            id: "pipeline-line-901",
+            name: "Line 901 / Gaviota to SJV (Refugio Spill Line)",
+            operator: "Plains All American",
+            type: "crude-oil",
+            coordinates: [
+                [34.4650, -120.2100],
+                [34.5000, -120.0500],
+                [34.6000, -119.8000],
+                [34.7000, -119.5000],
+                [35.0000, -119.4000],
+                [35.1500, -119.5500]
+            ],
+            capacity: 50000,
+            length: 123,
+            diameter: "24 inch",
+            description: "The Plains All American pipeline that ruptured on May 19, 2015, spilling 140,000 gallons of crude oil onto Refugio State Beach — one of California's worst coastal spills. The line was shut down after the incident. Route follows the Santa Barbara coast and Cuyama Valley.",
+            source: "PHMSA, NTSB Accident Report"
+        },
+        {
+            id: "pipeline-so-cal-products",
+            name: "Southern California Products Pipeline (LA to San Diego)",
+            operator: "Kinder Morgan (SFPP)",
+            type: "refined-products",
+            coordinates: [
+                [33.8700, -118.2800],
+                [33.7500, -118.1000],
+                [33.5500, -117.7300],
+                [33.3500, -117.4500],
+                [33.1000, -117.2800],
+                [32.7200, -117.1500]
+            ],
+            capacity: 120000,
+            length: 135,
+            diameter: "20 inch",
+            description: "Products pipeline delivering gasoline, diesel, and jet fuel from the Los Angeles refinery cluster south to San Diego. Serves retail fuel distribution terminals throughout Southern California.",
+            source: "Kinder Morgan"
+        },
+        {
+            id: "pipeline-la-refinery-loop",
+            name: "Carson Refinery Interconnect",
+            operator: "Multiple (Valero, Tesoro, Marathon)",
+            type: "refined-products",
+            coordinates: [
+                [33.9050, -118.4300],
+                [33.8800, -118.3900],
+                [33.8500, -118.3300],
+                [33.8400, -118.2700],
+                [33.8100, -118.2400]
+            ],
+            capacity: 200000,
+            length: 18,
+            diameter: "Various",
+            description: "Short-haul refinery interconnect pipelines linking the cluster of major refineries in Carson, Torrance, Wilmington, and El Segundo — together one of the largest refinery complexes on the US West Coast.",
+            source: "PHMSA"
         }
     ],
     
@@ -1168,6 +1282,230 @@ const CALIFORNIA_DATA = {
             production: 2,
             description: "Basin in Monterey County containing the San Ardo field, California's largest field outside the San Joaquin and Los Angeles basins.",
             source: "USGS, CalGEM"
+        }
+    ],
+
+    // ================================================================
+    // OIL FIELD GEOGRAPHIC EXTENTS
+    // Approximate polygon footprints showing the actual area of each
+    // major oil field — not just the point where the marker sits.
+    // Derived from CalGEM/DOGGR field boundary data and USGS surveys.
+    // ================================================================
+    oilFieldExtents: [
+        // === SAN JOAQUIN VALLEY ===
+        {
+            fieldId: "field-midway-sunset",
+            name: "Midway-Sunset Field Footprint",
+            // ~30,000 acres — long NW-SE strip along Temblor Range foothills
+            bounds: [
+                [34.97, -119.78], [34.97, -119.30],
+                [35.33, -119.30], [35.33, -119.78]
+            ]
+        },
+        {
+            fieldId: "field-kern-river",
+            name: "Kern River Field Footprint",
+            // ~15,000 acres — north of Bakersfield, high-density steamflood
+            bounds: [
+                [35.28, -119.08], [35.28, -118.85],
+                [35.55, -118.85], [35.55, -119.08]
+            ]
+        },
+        {
+            fieldId: "field-south-belridge",
+            name: "South Belridge Field Footprint",
+            // ~8,800 acres — western San Joaquin, diatomite heavy oil
+            bounds: [
+                [35.27, -119.73], [35.27, -119.54],
+                [35.47, -119.54], [35.47, -119.73]
+            ]
+        },
+        {
+            fieldId: "field-elk-hills",
+            name: "Elk Hills Field Footprint",
+            // ~47,000 acres — former Naval Petroleum Reserve, very large
+            bounds: [
+                [35.10, -119.68], [35.10, -119.28],
+                [35.46, -119.28], [35.46, -119.68]
+            ]
+        },
+        {
+            fieldId: "field-lost-hills",
+            name: "Lost Hills Field Footprint",
+            // ~12,000 acres — Kern County diatomite field
+            bounds: [
+                [35.48, -119.83], [35.48, -119.62],
+                [35.69, -119.62], [35.69, -119.83]
+            ]
+        },
+        {
+            fieldId: "field-cymric",
+            name: "Cymric Field Footprint",
+            // ~15,000 acres — heavy oil, western Kern County
+            bounds: [
+                [35.19, -119.77], [35.19, -119.54],
+                [35.41, -119.54], [35.41, -119.77]
+            ]
+        },
+        {
+            fieldId: "field-coalinga",
+            name: "Coalinga Field Footprint",
+            // ~10,500 acres — one of California's oldest major fields
+            bounds: [
+                [36.09, -120.48], [36.09, -120.26],
+                [36.31, -120.26], [36.31, -120.48]
+            ]
+        },
+        // === LOS ANGELES BASIN — urban extraction ===
+        {
+            fieldId: "field-wilmington",
+            name: "Wilmington Field Footprint",
+            // ~13,000 acres — BENEATH residential Long Beach and the Port of LA
+            // This field caused 29 feet of land subsidence before injection wells were added
+            bounds: [
+                [33.73, -118.30], [33.73, -118.15],
+                [33.84, -118.15], [33.84, -118.30]
+            ]
+        },
+        {
+            fieldId: "field-long-beach",
+            name: "Long Beach / Signal Hill Field Footprint",
+            // ~2,800 acres — the 'porcupine hill' urban field
+            bounds: [
+                [33.76, -118.22], [33.76, -118.13],
+                [33.82, -118.13], [33.82, -118.22]
+            ]
+        },
+        {
+            fieldId: "field-huntington-beach",
+            name: "Huntington Beach Field Footprint",
+            // ~4,100 acres — beneath the beachfront city, extends offshore
+            bounds: [
+                [33.62, -118.07], [33.62, -117.93],
+                [33.73, -117.93], [33.73, -118.07]
+            ]
+        },
+        // === VENTURA BASIN ===
+        {
+            fieldId: "field-ventura",
+            name: "Ventura Field Footprint",
+            // ~6,500 acres — extends through the city of Ventura
+            bounds: [
+                [34.24, -119.37], [34.24, -119.18],
+                [34.37, -119.18], [34.37, -119.37]
+            ]
+        }
+    ],
+
+    // ================================================================
+    // URBAN DRILLING SITES
+    // Active oil extraction within or immediately adjacent to urban
+    // communities — the defining hidden story of California's oil industry.
+    // ================================================================
+    urbanWells: [
+        {
+            id: "urban-beverly-hills",
+            name: "Beverly Hills Oil Field",
+            type: "urban-well",
+            lat: 33.8794,
+            lng: -118.4065,
+            activeWells: 1000,
+            operator: "California Resources Corporation",
+            status: "Active",
+            proximity: "Beverly Hills High School (~500m), residential streets",
+            description: "Approximately 1,000 active oil wells operate beneath Beverly Hills, concealed in a tower on Olympic Boulevard disguised as a commercial building. The Hillcrest extraction site sits roughly 500 meters from Beverly Hills High School. For decades, students and families had no idea oil was being pumped beneath them. When the secret leaked in 2014, it sparked a citywide reckoning.",
+            source: "CalGEM, LA Times Investigation 2014"
+        },
+        {
+            id: "urban-inglewood",
+            name: "Inglewood Oil Field (Baldwin Hills)",
+            type: "urban-well",
+            lat: 33.9940,
+            lng: -118.3680,
+            activeWells: 1400,
+            operator: "Sentinel Peak Resources",
+            status: "Active",
+            proximity: "Baldwin Hills, Ladera Heights, View Park (majority-Black communities)",
+            description: "The largest urban oil field in the United States. Over 1,400 wells operate on 1,000 acres surrounded by the predominantly Black communities of Baldwin Hills, Ladera Heights, and View Park. Residents report hydrogen sulfide odors, increased asthma rates, and anxiety. In 2022, Sentinel Peak Resources proposed a 34-year expansion — a fight that ended with LA County banning new oil wells near homes.",
+            source: "CalGEM, FracTracker, LA County Planning Commission 2022"
+        },
+        {
+            id: "urban-wilmington",
+            name: "Wilmington Urban Oil Extraction",
+            type: "urban-well",
+            lat: 33.7960,
+            lng: -118.2480,
+            activeWells: 2500,
+            operator: "California Resources Corporation",
+            status: "Active",
+            proximity: "Residential Wilmington, Port of Long Beach, schools",
+            description: "Thousands of active wells beneath Wilmington — one of LA's most industrialized and polluted communities. The field's extraction caused the ground to sink up to 29 feet, damaging buildings, flooding streets, and cracking harbor infrastructure. The subsidence required massive water injection wells to stabilize the land. Residents in the surrounding environmental justice community continue to bear disproportionate health burdens.",
+            source: "CalGEM, USGS, USC Environmental Health"
+        },
+        {
+            id: "urban-signal-hill",
+            name: "Signal Hill — The Porcupine City",
+            type: "urban-well",
+            lat: 33.8008,
+            lng: -118.1769,
+            activeWells: 300,
+            operator: "Signal Hill Petroleum (multiple operators)",
+            status: "Active",
+            proximity: "Entire city of Signal Hill, residential neighborhoods",
+            description: "The city of Signal Hill (population ~12,000) was incorporated in 1924 specifically to prevent Long Beach from taxing its oil revenues. Depression-era photographs show the entire hilltop bristling with derricks — earning it the nickname 'Porcupine Hill.' Today hundreds of active wells remain woven through residential streets. The city still derives significant revenue from oil production.",
+            source: "CalGEM, Signal Hill City Records, DOGGR"
+        },
+        {
+            id: "urban-huntington-beach",
+            name: "Huntington Beach Urban Wells",
+            type: "urban-well",
+            lat: 33.6595,
+            lng: -117.9988,
+            activeWells: 800,
+            operator: "California Resources Corporation",
+            status: "Active",
+            proximity: "Beach, residential streets, downtown Huntington Beach",
+            description: "Active oil production continues on the beach, in city parks, and beneath residential Huntington Beach. Wells operate on public land, private property, and beneath the shoreline. The same reservoir that feeds these urban wells extends offshore to the Beta platforms five miles away, where an October 2021 pipeline rupture spilled 25,000 gallons onto the beach.",
+            source: "CalGEM, City of Huntington Beach, BSEE"
+        },
+        {
+            id: "urban-santa-fe-springs",
+            name: "Santa Fe Springs Oil Field",
+            type: "urban-well",
+            lat: 33.9390,
+            lng: -118.0740,
+            activeWells: 600,
+            operator: "Multiple operators",
+            status: "Active (declining)",
+            proximity: "Industrial/residential SE Los Angeles County, adjacent to Pico Rivera and Whittier",
+            description: "Once one of California's most productive fields, Santa Fe Springs remains active with hundreds of wells operating in an increasingly suburban landscape. The field sits in an environmental justice community with some of the highest cumulative pollution burdens in the state.",
+            source: "CalGEM, DOGGR, CalEnviroScreen"
+        },
+        {
+            id: "urban-torrance",
+            name: "Torrance / South Bay Wells",
+            type: "urban-well",
+            lat: 33.8440,
+            lng: -118.3380,
+            activeWells: 250,
+            operator: "PBF Energy, multiple",
+            status: "Active",
+            proximity: "Torrance refinery, suburban South Bay, schools",
+            description: "Urban wells adjacent to the Torrance refinery operate in a suburban landscape surrounded by homes, schools, and the sprawling South Bay commercial district. In February 2015, an explosion at the Torrance refinery — narrowly avoided igniting a catalytic cracking unit — released a toxic dust cloud over nearby neighborhoods. Investigators found the refinery had been operating with corroded equipment for years.",
+            source: "CalGEM, CAER, US Chemical Safety Board 2017"
+        },
+        {
+            id: "urban-west-la",
+            name: "West Los Angeles Wells (Pico–Robertson / West Hollywood)",
+            type: "urban-well",
+            lat: 34.0300,
+            lng: -118.4300,
+            activeWells: 400,
+            operator: "California Resources Corporation, Freehold CA",
+            status: "Active",
+            proximity: "West Hollywood, Pico-Robertson, Culver City residential",
+            description: "Dozens of active well sites operate beneath densely populated West Los Angeles, many disguised as commercial buildings or hidden behind sound-absorbing walls and fake storefronts. California has no minimum setback distance from homes for oil wells — some operate within feet of residences. The 'stealth drilling' practice has drawn significant media attention but remains legal statewide.",
+            source: "CalGEM, Consumer Watchdog, LA Times 2018"
         }
     ]
 };
