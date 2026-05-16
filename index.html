@@ -112,19 +112,7 @@
             text-transform: uppercase;
         }
         
-        .back-link {
-            color: var(--color-text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: color 0.2s;
-        }
-        
-        .back-link:hover {
-            color: var(--color-text);
-        }
+
         
         /* ============================================
            SIDEBAR / LAYER CONTROLS
@@ -368,7 +356,7 @@
         .legend {
             position: absolute;
             bottom: 30px;
-            left: 20px;
+            right: 20px;
             background: rgba(37, 37, 64, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 8px;
@@ -717,8 +705,6 @@
             .legend {
                 bottom: auto;
                 top: 80px;
-                left: auto;
-                right: 20px;
             }
         }
         
@@ -852,18 +838,7 @@
             letter-spacing: 0.01em;
         }
         
-        .back-link {
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 6px;
-            padding: 6px 12px;
-            font-size: 0.8rem;
-        }
-        
-        .back-link:hover {
-            border-color: rgba(230, 126, 34, 0.4);
-            background: rgba(230, 126, 34, 0.08);
-            color: var(--color-pipeline);
-        }
+
         
         /* ============================================
            PIPELINE GLOW ON HOVER
@@ -876,7 +851,6 @@
 <body>
     <!-- Header -->
     <header class="map-header">
-        <a href="index.html" class="back-link">← Back to Story</a>
         <h1>California <span>Oil Infrastructure</span> Map</h1>
         <div class="header-stats">
             <div class="header-stat">
