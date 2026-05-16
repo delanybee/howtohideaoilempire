@@ -573,6 +573,170 @@
                 right: 20px;
             }
         }
+        
+        /* ============================================
+           SIDEBAR COLLAPSE
+           ============================================ */
+        .sidebar-header__top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        
+        .sidebar-collapse-btn {
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            font-size: 0.75rem;
+            padding: 4px 6px;
+            border-radius: 4px;
+            transition: color 0.2s, background 0.2s;
+            line-height: 1;
+        }
+        
+        .sidebar-collapse-btn:hover {
+            color: var(--color-text);
+            background: rgba(255,255,255,0.08);
+        }
+        
+        .sidebar.is-collapsed .sidebar-content,
+        .sidebar.is-collapsed .search-container,
+        .sidebar.is-collapsed .sidebar-header p,
+        .sidebar.is-collapsed .sidebar-quick-actions {
+            display: none;
+        }
+        
+        .sidebar.is-collapsed {
+            width: auto;
+            min-width: 0;
+        }
+        
+        .sidebar.is-collapsed .sidebar-collapse-btn {
+            transform: rotate(180deg);
+        }
+        
+        .sidebar.is-collapsed .sidebar-header__top h2 {
+            display: none;
+        }
+        
+        /* ============================================
+           QUICK ACTION BUTTONS
+           ============================================ */
+        .sidebar-quick-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+        }
+        
+        .quick-action-btn {
+            flex: 1;
+            padding: 6px 0;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            color: var(--color-text-muted);
+            font-family: inherit;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-weight: 500;
+        }
+        
+        .quick-action-btn:hover {
+            background: rgba(230, 126, 34, 0.15);
+            border-color: var(--color-pipeline);
+            color: var(--color-pipeline);
+        }
+        
+        /* ============================================
+           RADIO BUTTON FIX
+           ============================================ */
+        .layer-toggle__radio {
+            border-radius: 50% !important;
+        }
+        
+        .layer-toggle input[type="radio"]:checked + .layer-toggle__radio {
+            border-color: var(--layer-color, var(--color-pipeline));
+            background: var(--layer-color, var(--color-pipeline));
+        }
+        
+        .layer-toggle input[type="radio"]:checked + .layer-toggle__radio::after {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 6px;
+            background: var(--color-bg-dark);
+            border-radius: 50%;
+            margin: auto;
+            margin-top: 3px;
+        }
+        
+        /* ============================================
+           BADGE
+           ============================================ */
+        .badge-recommended {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-weight: 600;
+            padding: 1px 5px;
+            background: rgba(230, 126, 34, 0.2);
+            border: 1px solid rgba(230, 126, 34, 0.4);
+            color: var(--color-pipeline);
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            vertical-align: middle;
+        }
+        
+        /* ============================================
+           LEGEND — SVG ICONS
+           ============================================ */
+        .legend__item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+        
+        .legend__item svg {
+            flex-shrink: 0;
+        }
+        
+        /* ============================================
+           HEADER POLISH
+           ============================================ */
+        .map-header {
+            border-bottom: 1px solid rgba(230, 126, 34, 0.2);
+        }
+        
+        .map-header h1 {
+            font-size: 1rem;
+            letter-spacing: 0.01em;
+        }
+        
+        .back-link {
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+        
+        .back-link:hover {
+            border-color: rgba(230, 126, 34, 0.4);
+            background: rgba(230, 126, 34, 0.08);
+            color: var(--color-pipeline);
+        }
+        
+        /* ============================================
+           PIPELINE GLOW ON HOVER
+           ============================================ */
+        .leaflet-interactive:hover {
+            filter: drop-shadow(0 0 6px rgba(230, 126, 34, 0.6));
+        }
     </style>
 </head>
 <body>
@@ -600,10 +764,17 @@
     <div id="map"></div>
     
     <!-- Sidebar / Layer Controls -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>Infrastructure Layers</h2>
+            <div class="sidebar-header__top">
+                <h2>Infrastructure Layers</h2>
+                <button class="sidebar-collapse-btn" id="sidebar-collapse-btn" title="Collapse panel">◀</button>
+            </div>
             <p>Toggle layers to explore California's oil and gas network</p>
+            <div class="sidebar-quick-actions">
+                <button class="quick-action-btn" id="btn-show-all">Show All</button>
+                <button class="quick-action-btn" id="btn-hide-all">Hide All</button>
+            </div>
         </div>
         
         <div class="search-container">
@@ -710,27 +881,27 @@
             <div class="layer-group">
                 <div class="layer-group__title">Base Map</div>
                 
-                <label class="layer-toggle" style="--layer-color: #95a5a6">
-                    <input type="radio" name="basemap" id="basemap-topo" checked>
-                    <span class="layer-toggle__checkbox"></span>
+                <label class="layer-toggle" style="--layer-color: #e67e22">
+                    <input type="radio" name="basemap" id="basemap-dark" checked>
+                    <span class="layer-toggle__checkbox layer-toggle__radio"></span>
                     <div class="layer-toggle__info">
-                        <div class="layer-toggle__name">Topographic</div>
+                        <div class="layer-toggle__name">Dark <span class="badge-recommended">Default</span></div>
                     </div>
                 </label>
                 
                 <label class="layer-toggle" style="--layer-color: #95a5a6">
                     <input type="radio" name="basemap" id="basemap-satellite">
-                    <span class="layer-toggle__checkbox"></span>
+                    <span class="layer-toggle__checkbox layer-toggle__radio"></span>
                     <div class="layer-toggle__info">
                         <div class="layer-toggle__name">Satellite</div>
                     </div>
                 </label>
                 
                 <label class="layer-toggle" style="--layer-color: #95a5a6">
-                    <input type="radio" name="basemap" id="basemap-dark">
-                    <span class="layer-toggle__checkbox"></span>
+                    <input type="radio" name="basemap" id="basemap-topo">
+                    <span class="layer-toggle__checkbox layer-toggle__radio"></span>
                     <div class="layer-toggle__info">
-                        <div class="layer-toggle__name">Dark</div>
+                        <div class="layer-toggle__name">Topographic</div>
                     </div>
                 </label>
             </div>
@@ -767,24 +938,28 @@
     <div class="legend">
         <div class="legend__title">Legend</div>
         <div class="legend__item">
-            <div class="legend__color" style="background: var(--color-platform)"></div>
+            <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="#3498db" stroke="white" stroke-width="1.5"/></svg>
             <span>Offshore Platform</span>
         </div>
         <div class="legend__item">
-            <div class="legend__color" style="background: var(--color-oilfield)"></div>
+            <svg width="16" height="16" viewBox="0 0 16 16"><polygon points="8,2 14,14 2,14" fill="#27ae60" stroke="white" stroke-width="1.5"/></svg>
             <span>Oil Field</span>
         </div>
         <div class="legend__item">
-            <div class="legend__color" style="background: var(--color-refinery)"></div>
+            <svg width="16" height="16" viewBox="0 0 16 16"><polygon points="8,2 14,8 8,14 2,8" fill="#9b59b6" stroke="white" stroke-width="1.5"/></svg>
             <span>Refinery</span>
         </div>
         <div class="legend__item">
-            <div class="legend__color" style="background: var(--color-terminal)"></div>
-            <span>Terminal</span>
+            <svg width="16" height="16" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2" fill="#e74c3c" stroke="white" stroke-width="1.5"/></svg>
+            <span>Marine Terminal</span>
         </div>
         <div class="legend__item">
-            <div class="legend__color legend__color--line" style="background: var(--color-pipeline)"></div>
+            <svg width="16" height="4" viewBox="0 0 16 4"><rect x="0" y="1" width="16" height="2" rx="1" fill="#e67e22"/></svg>
             <span>Pipeline</span>
+        </div>
+        <div class="legend__item">
+            <svg width="16" height="16" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="14" rx="2" fill="#f39c12" fill-opacity="0.3" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/></svg>
+            <span>Geological Basin</span>
         </div>
     </div>
     
@@ -800,5 +975,36 @@
     
     <!-- Map Logic -->
     <script src="js/california-map.js"></script>
+    
+    <!-- UI Enhancements -->
+    <script>
+        // Sidebar collapse
+        const sidebar = document.getElementById('sidebar');
+        const collapseBtn = document.getElementById('sidebar-collapse-btn');
+        collapseBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('is-collapsed');
+            collapseBtn.title = sidebar.classList.contains('is-collapsed') ? 'Expand panel' : 'Collapse panel';
+        });
+        
+        // Show All / Hide All layer checkboxes
+        const layerCheckboxIds = [
+            'layer-platforms', 'layer-offshore-pipelines', 'layer-oilfields',
+            'layer-basins', 'layer-refineries', 'layer-terminals', 'layer-pipelines'
+        ];
+        
+        document.getElementById('btn-show-all').addEventListener('click', () => {
+            layerCheckboxIds.forEach(id => {
+                const cb = document.getElementById(id);
+                if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event('change')); }
+            });
+        });
+        
+        document.getElementById('btn-hide-all').addEventListener('click', () => {
+            layerCheckboxIds.forEach(id => {
+                const cb = document.getElementById(id);
+                if (cb && cb.checked) { cb.checked = false; cb.dispatchEvent(new Event('change')); }
+            });
+        });
+    </script>
 </body>
 </html>

@@ -42,52 +42,61 @@
         })
     };
     
-    // Set default base layer
-    baseLayers.topo.addTo(map);
-    let currentBaseLayer = baseLayers.topo;
+    // Set default base layer — dark background lets infrastructure pop
+    baseLayers.dark.addTo(map);
+    let currentBaseLayer = baseLayers.dark;
     
     // ================================================================
     // CUSTOM ICONS
     // ================================================================
     
-    function createIcon(color, size = 14) {
+    // shape: 'circle' | 'diamond' | 'square'
+    function createIcon(color, shape = 'circle', size = 16) {
+        let svgShape;
+        const s = size, h = size / 2, p = 1.5;
+        if (shape === 'diamond') {
+            svgShape = `<polygon points="${h},${p} ${s-p},${h} ${h},${s-p} ${p},${h}" fill="${color}" stroke="white" stroke-width="1.5"/>`;
+        } else if (shape === 'square') {
+            svgShape = `<rect x="${p}" y="${p}" width="${s - p*2}" height="${s - p*2}" rx="2" fill="${color}" stroke="white" stroke-width="1.5"/>`;
+        } else if (shape === 'triangle') {
+            svgShape = `<polygon points="${h},${p} ${s-p},${s-p} ${p},${s-p}" fill="${color}" stroke="white" stroke-width="1.5"/>`;
+        } else {
+            svgShape = `<circle cx="${h}" cy="${h}" r="${h - p}" fill="${color}" stroke="white" stroke-width="1.5"/>`;
+        }
         return L.divIcon({
-            className: 'custom-marker',
-            html: `<div style="
-                width: ${size}px;
-                height: ${size}px;
-                background: ${color};
-                border: 2px solid white;
-                border-radius: 50%;
-                box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-            "></div>`,
-            iconSize: [size, size],
-            iconAnchor: [size/2, size/2]
+            className: '',
+            html: `<svg width="${s}" height="${s}" viewBox="0 0 ${s} ${s}" xmlns="http://www.w3.org/2000/svg" style="display:block;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.6))">${svgShape}</svg>`,
+            iconSize: [s, s],
+            iconAnchor: [h, h]
         });
     }
     
     const ICONS = {
-        platform: createIcon('#3498db', 16),
-        'artificial-island': createIcon('#1abc9c', 18),
-        'oil-field': createIcon('#27ae60', 12),
-        refinery: createIcon('#9b59b6', 18),
-        'marine-terminal': createIcon('#e74c3c', 14)
+        platform:           createIcon('#3498db', 'circle',   16),
+        'artificial-island': createIcon('#1abc9c', 'circle',  20),
+        'oil-field':        createIcon('#27ae60', 'triangle', 16),
+        refinery:           createIcon('#9b59b6', 'diamond',  20),
+        'marine-terminal':  createIcon('#e74c3c', 'square',   16)
     };
     
     // Larger icons for hover/selected state
-    function createLargeIcon(color, size = 20) {
+    function createLargeIcon(color, shape = 'circle', size = 22) {
+        let svgShape;
+        const s = size, h = size / 2, p = 2;
+        if (shape === 'diamond') {
+            svgShape = `<polygon points="${h},${p} ${s-p},${h} ${h},${s-p} ${p},${h}" fill="${color}" stroke="white" stroke-width="2"/>`;
+        } else if (shape === 'square') {
+            svgShape = `<rect x="${p}" y="${p}" width="${s - p*2}" height="${s - p*2}" rx="2" fill="${color}" stroke="white" stroke-width="2"/>`;
+        } else if (shape === 'triangle') {
+            svgShape = `<polygon points="${h},${p} ${s-p},${s-p} ${p},${s-p}" fill="${color}" stroke="white" stroke-width="2"/>`;
+        } else {
+            svgShape = `<circle cx="${h}" cy="${h}" r="${h - p}" fill="${color}" stroke="white" stroke-width="2"/>`;
+        }
         return L.divIcon({
-            className: 'custom-marker',
-            html: `<div style="
-                width: ${size}px;
-                height: ${size}px;
-                background: ${color};
-                border: 3px solid white;
-                border-radius: 50%;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            "></div>`,
-            iconSize: [size, size],
-            iconAnchor: [size/2, size/2]
+            className: '',
+            html: `<svg width="${s}" height="${s}" viewBox="0 0 ${s} ${s}" xmlns="http://www.w3.org/2000/svg" style="display:block;filter:drop-shadow(0 3px 10px rgba(0,0,0,0.7))">${svgShape}</svg>`,
+            iconSize: [s, s],
+            iconAnchor: [h, h]
         });
     }
     
@@ -131,7 +140,7 @@
         
         marker.on('click', () => showInfoPanel(platform, 'Offshore Platform'));
         marker.on('mouseover', () => {
-            marker.setIcon(createLargeIcon('#3498db'));
+            marker.setIcon(createLargeIcon('#3498db', 'circle'));
         });
         marker.on('mouseout', () => {
             if (selectedMarker !== marker) {
@@ -160,7 +169,7 @@
         
         marker.on('click', () => showInfoPanel(field, 'Oil Field'));
         marker.on('mouseover', () => {
-            marker.setIcon(createLargeIcon('#27ae60'));
+            marker.setIcon(createLargeIcon('#27ae60', 'triangle'));
         });
         marker.on('mouseout', () => {
             if (selectedMarker !== marker) {
@@ -189,7 +198,7 @@
         
         marker.on('click', () => showInfoPanel(refinery, 'Refinery'));
         marker.on('mouseover', () => {
-            marker.setIcon(createLargeIcon('#9b59b6', 24));
+            marker.setIcon(createLargeIcon('#9b59b6', 'diamond', 26));
         });
         marker.on('mouseout', () => {
             if (selectedMarker !== marker) {
@@ -218,7 +227,7 @@
         
         marker.on('click', () => showInfoPanel(terminal, 'Marine Terminal'));
         marker.on('mouseover', () => {
-            marker.setIcon(createLargeIcon('#e74c3c'));
+            marker.setIcon(createLargeIcon('#e74c3c', 'square'));
         });
         marker.on('mouseout', () => {
             if (selectedMarker !== marker) {
