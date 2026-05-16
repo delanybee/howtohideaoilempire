@@ -129,26 +129,50 @@
     const allFeatures = []; // For search functionality
     let selectedMarker = null;
     
+    // ── Status → color encoding ──────────────────────────────────────
+    function getPlatformColor(status) {
+        if (!status || status === 'Producing') return '#3498db';
+        if (status.startsWith('Shut-in'))      return '#f39c12';
+        if (status.startsWith('Damaged'))      return '#e74c3c';
+        if (status === 'Decommissioned')       return '#5d6d7e';
+        return '#3498db';
+    }
+    
+    // ── Production volume → icon size ────────────────────────────────
+    function getPlatformSize(oilBpd) {
+        if (oilBpd > 5000) return 22;
+        if (oilBpd > 2000) return 18;
+        if (oilBpd > 800)  return 14;
+        return 11;
+    }
+
     // Add platforms
     CALIFORNIA_DATA.platforms.forEach(platform => {
-        const marker = L.marker([platform.lat, platform.lng], {
-            icon: ICONS[platform.type] || ICONS.platform
-        });
+        const pColor = getPlatformColor(platform.status);
+        const pSize  = getPlatformSize(platform.production?.oil || 0);
+        const pIcon  = createIcon(pColor, platform.type === 'artificial-island' ? 'circle' : 'circle', pSize);
+        
+        const marker = L.marker([platform.lat, platform.lng], { icon: pIcon });
         
         marker.feature = platform;
         marker.featureType = 'Platform';
         
         marker.on('click', () => showInfoPanel(platform, 'Offshore Platform'));
         marker.on('mouseover', () => {
-            marker.setIcon(createLargeIcon('#3498db', 'circle'));
+            marker.setIcon(createLargeIcon(pColor, 'circle', pSize + 7));
         });
         marker.on('mouseout', () => {
             if (selectedMarker !== marker) {
-                marker.setIcon(ICONS[platform.type] || ICONS.platform);
+                marker.setIcon(pIcon);
             }
         });
         
-        marker.bindTooltip(platform.name, {
+        // THUMS Islands get a special tooltip badge
+        const isTHUMS = platform.type === 'artificial-island';
+        const tooltipContent = isTHUMS
+            ? `<b>${platform.name}</b><br><span style="color:#f39c12;font-size:0.75em">⚠ Disguised as luxury real estate</span>`
+            : platform.name;
+        marker.bindTooltip(tooltipContent, {
             permanent: false,
             direction: 'top',
             offset: [0, -10]
@@ -156,6 +180,24 @@
         
         layers.platforms.addLayer(marker);
         allFeatures.push({ marker, data: platform, type: 'Platform' });
+        
+        // Incident pulse ring for spill sites
+        const hasIncident = platform.status.startsWith('Shut-in') ||
+            platform.status.startsWith('Damaged') ||
+            (platform.description && platform.description.toLowerCase().includes('spill'));
+        
+        if (hasIncident) {
+            const pulse = L.divIcon({
+                className: '',
+                html: `<div class="incident-pulse" title="${platform.name} — incident site"></div>`,
+                iconSize: [44, 44],
+                iconAnchor: [22, 22]
+            });
+            const pulseMarker = L.marker([platform.lat, platform.lng], {
+                icon: pulse, interactive: false, zIndexOffset: -100
+            });
+            layers.platforms.addLayer(pulseMarker);
+        }
     });
     
     // Add oil fields
@@ -252,10 +294,11 @@
         
         const polyline = L.polyline(pipeline.coordinates, {
             color: color,
-            weight: 4,
-            opacity: 0.8,
+            weight: pipeline.type === 'products' ? 3 : 4,
+            opacity: 0.85,
             lineCap: 'round',
-            lineJoin: 'round'
+            lineJoin: 'round',
+            className: `pipeline-flow ${pipeline.type === 'products' ? 'pipeline-products' : 'pipeline-crude'}`
         });
         
         polyline.feature = pipeline;
@@ -631,6 +674,29 @@
     map.fitBounds(californiaBounds, { padding: [20, 20] });
     
     // ================================================================
+    // STATS BAR
+    // ================================================================
+    (function populateStats() {
+        const platforms = CALIFORNIA_DATA.platforms;
+        const active    = platforms.filter(p => p.status === 'Producing').length;
+        const incidents = platforms.filter(p =>
+            p.status.startsWith('Shut-in') ||
+            p.status.startsWith('Damaged') ||
+            (p.description && p.description.toLowerCase().includes('spill'))
+        ).length;
+        const totalOil  = platforms
+            .filter(p => p.status === 'Producing')
+            .reduce((s, p) => s + (p.production?.oil || 0), 0);
+        const decommissioned = platforms.filter(p => p.status === 'Decommissioned').length;
+
+        const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+        set('stats-active',       active);
+        set('stats-production',   totalOil.toLocaleString() + ' bbl/d');
+        set('stats-incidents',    incidents);
+        set('stats-decommissioned', decommissioned);
+    })();
+
+    // ================================================================
     // EXPORT FOR DEBUGGING
     // ================================================================
     
@@ -639,7 +705,19 @@
         layers,
         baseLayers,
         allFeatures,
-        showInfoPanel
+        showInfoPanel,
+        filterPlatformsByStatus(status) {
+            allFeatures.filter(f => f.type === 'Platform').forEach(f => {
+                const s = f.data.status || '';
+                let show = true;
+                if (status === 'producing')  show = s === 'Producing';
+                if (status === 'shutin')     show = s.startsWith('Shut-in');
+                if (status === 'incident')   show = s.startsWith('Damaged') ||
+                    (f.data.description && f.data.description.toLowerCase().includes('spill'));
+                if (status === 'decommissioned') show = s === 'Decommissioned';
+                f.marker.setOpacity(show ? 1 : 0.08);
+            });
+        }
     };
     
     console.log('California Infrastructure Map initialized');

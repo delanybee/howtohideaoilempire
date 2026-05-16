@@ -544,6 +544,122 @@
         }
         
         /* ============================================
+           PIPELINE FLOW ANIMATION
+           ============================================ */
+        .pipeline-flow {
+            stroke-dasharray: 10 6 !important;
+            animation: pipeline-flow 1.8s linear infinite;
+        }
+        
+        .pipeline-products {
+            stroke-dasharray: 6 8 !important;
+            animation: pipeline-flow 2.4s linear infinite;
+        }
+        
+        @keyframes pipeline-flow {
+            from { stroke-dashoffset: 0; }
+            to   { stroke-dashoffset: -32; }
+        }
+        
+        /* ============================================
+           INCIDENT PULSE RINGS
+           ============================================ */
+        .incident-pulse {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid rgba(231, 76, 60, 0.6);
+            background: rgba(231, 76, 60, 0.08);
+            animation: incident-pulse 2.2s ease-out infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes incident-pulse {
+            0%   { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+        
+        /* ============================================
+           STATS BAR
+           ============================================ */
+        .stats-bar {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1px;
+            z-index: 1000;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+            backdrop-filter: blur(14px);
+            white-space: nowrap;
+        }
+        
+        .stats-bar__item {
+            padding: 9px 22px;
+            text-align: center;
+            background: rgba(30, 30, 52, 0.92);
+            border-right: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        .stats-bar__item:last-child { border-right: none; }
+        
+        .stats-bar__value {
+            display: block;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #3498db;
+            line-height: 1.2;
+        }
+        
+        .stats-bar__item--orange .stats-bar__value { color: var(--color-pipeline); }
+        .stats-bar__item--red    .stats-bar__value { color: #e74c3c; }
+        .stats-bar__item--gray   .stats-bar__value { color: #7f8c8d; }
+        
+        .stats-bar__label {
+            display: block;
+            font-size: 0.62rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 2px;
+        }
+        
+        /* ============================================
+           STATUS FILTER BUTTONS
+           ============================================ */
+        .status-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 4px;
+        }
+        
+        .status-filter {
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            font-family: inherit;
+            font-weight: 500;
+            border-radius: 5px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.04);
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        
+        .status-filter:hover { background: rgba(255,255,255,0.1); color: var(--color-text); }
+        .status-filter.active { background: rgba(52, 152, 219, 0.2); border-color: #3498db; color: #3498db; }
+        .status-filter[data-status="shutin"].active    { background: rgba(243,156,18,0.2);  border-color: #f39c12; color: #f39c12; }
+        .status-filter[data-status="incident"].active  { background: rgba(231,76,60,0.2);   border-color: #e74c3c; color: #e74c3c; }
+        .status-filter[data-status="decommissioned"].active { background: rgba(127,140,141,0.2); border-color: #7f8c8d; color: #7f8c8d; }
+        
+        /* ============================================
            RESPONSIVE
            ============================================ */
         @media (max-width: 768px) {
@@ -879,6 +995,17 @@
             </div>
             
             <div class="layer-group">
+                <div class="layer-group__title">Platform Status Filter</div>
+                <div class="status-filters">
+                    <button class="status-filter active" data-status="all">All</button>
+                    <button class="status-filter" data-status="producing">Active</button>
+                    <button class="status-filter" data-status="shutin">Shut-in</button>
+                    <button class="status-filter" data-status="incident">Incidents</button>
+                    <button class="status-filter" data-status="decommissioned">Retired</button>
+                </div>
+            </div>
+            
+            <div class="layer-group">
                 <div class="layer-group__title">Base Map</div>
                 
                 <label class="layer-toggle" style="--layer-color: #e67e22">
@@ -934,32 +1061,66 @@
         </div>
     </aside>
     
+    <!-- Stats Bar -->
+    <div class="stats-bar" id="stats-bar">
+        <div class="stats-bar__item">
+            <span class="stats-bar__value" id="stats-active">—</span>
+            <span class="stats-bar__label">Active Platforms</span>
+        </div>
+        <div class="stats-bar__item stats-bar__item--orange">
+            <span class="stats-bar__value" id="stats-production">—</span>
+            <span class="stats-bar__label">Mapped Offshore Production</span>
+        </div>
+        <div class="stats-bar__item stats-bar__item--red">
+            <span class="stats-bar__value" id="stats-incidents">—</span>
+            <span class="stats-bar__label">Incident / Shut-in Sites</span>
+        </div>
+        <div class="stats-bar__item stats-bar__item--gray">
+            <span class="stats-bar__value" id="stats-decommissioned">—</span>
+            <span class="stats-bar__label">Decommissioned</span>
+        </div>
+    </div>
+
     <!-- Legend -->
     <div class="legend">
         <div class="legend__title">Legend</div>
+        <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--color-text-muted);margin:6px 0 4px;">Platform Status</div>
         <div class="legend__item">
-            <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="#3498db" stroke="white" stroke-width="1.5"/></svg>
-            <span>Offshore Platform</span>
+            <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="#3498db" stroke="white" stroke-width="1.5"/></svg>
+            <span>Producing</span>
         </div>
         <div class="legend__item">
-            <svg width="16" height="16" viewBox="0 0 16 16"><polygon points="8,2 14,14 2,14" fill="#27ae60" stroke="white" stroke-width="1.5"/></svg>
+            <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="#f39c12" stroke="white" stroke-width="1.5"/></svg>
+            <span>Shut-in</span>
+        </div>
+        <div class="legend__item">
+            <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="#e74c3c" stroke="white" stroke-width="1.5"/></svg>
+            <span style="color:#e74c3c">Damaged / Spill Site</span>
+        </div>
+        <div class="legend__item">
+            <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="#5d6d7e" stroke="white" stroke-width="1.5"/></svg>
+            <span>Decommissioned</span>
+        </div>
+        <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--color-text-muted);margin:8px 0 4px;">Infrastructure</div>
+        <div class="legend__item">
+            <svg width="14" height="14" viewBox="0 0 14 14"><polygon points="7,1 13,13 1,13" fill="#27ae60" stroke="white" stroke-width="1.5"/></svg>
             <span>Oil Field</span>
         </div>
         <div class="legend__item">
-            <svg width="16" height="16" viewBox="0 0 16 16"><polygon points="8,2 14,8 8,14 2,8" fill="#9b59b6" stroke="white" stroke-width="1.5"/></svg>
+            <svg width="14" height="14" viewBox="0 0 14 14"><polygon points="7,1 13,7 7,13 1,7" fill="#9b59b6" stroke="white" stroke-width="1.5"/></svg>
             <span>Refinery</span>
         </div>
         <div class="legend__item">
-            <svg width="16" height="16" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2" fill="#e74c3c" stroke="white" stroke-width="1.5"/></svg>
+            <svg width="14" height="14" viewBox="0 0 14 14"><rect x="1.5" y="1.5" width="11" height="11" rx="2" fill="#e74c3c" stroke="white" stroke-width="1.5"/></svg>
             <span>Marine Terminal</span>
         </div>
         <div class="legend__item">
-            <svg width="16" height="4" viewBox="0 0 16 4"><rect x="0" y="1" width="16" height="2" rx="1" fill="#e67e22"/></svg>
-            <span>Pipeline</span>
+            <svg width="16" height="5" viewBox="0 0 16 5"><line x1="0" y1="2.5" x2="16" y2="2.5" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6,4"/></svg>
+            <span>Pipeline (animated flow)</span>
         </div>
-        <div class="legend__item">
-            <svg width="16" height="16" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="14" rx="2" fill="#f39c12" fill-opacity="0.3" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/></svg>
-            <span>Geological Basin</span>
+        <div class="legend__item" style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.08)">
+            <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="none" stroke="#e74c3c" stroke-width="1.5" opacity="0.7"/></svg>
+            <span style="color:rgba(231,76,60,0.9)">Incident pulse ring</span>
         </div>
     </div>
     
@@ -1003,6 +1164,24 @@
             layerCheckboxIds.forEach(id => {
                 const cb = document.getElementById(id);
                 if (cb && cb.checked) { cb.checked = false; cb.dispatchEvent(new Event('change')); }
+            });
+        });
+        
+        // Status filter buttons — delegate to california-map.js filterPlatformsByStatus
+        document.querySelectorAll('.status-filter').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.status-filter').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const status = btn.dataset.status;
+                if (window.californiaMap && window.californiaMap.filterPlatformsByStatus) {
+                    if (status === 'all') {
+                        window.californiaMap.allFeatures
+                            .filter(f => f.type === 'Platform')
+                            .forEach(f => f.marker.setOpacity(1));
+                    } else {
+                        window.californiaMap.filterPlatformsByStatus(status);
+                    }
+                }
             });
         });
     </script>
