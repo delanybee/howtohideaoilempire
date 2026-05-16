@@ -36,7 +36,7 @@
             --color-platform: #3498db;
             --color-oilfield: #27ae60;
             --color-refinery: #9b59b6;
-            --color-terminal: #e74c3c;
+            --color-terminal: #fdcb6e;
             --color-lease: #f39c12;
             --color-text: #e8e8e8;
             --color-text-muted: #888898;
@@ -376,6 +376,8 @@
             z-index: 1000;
             font-size: 0.75rem;
             border: 1px solid rgba(255,255,255,0.1);
+            max-height: calc(100vh - 180px);
+            overflow-y: auto;
         }
         
         .legend__title {
@@ -384,30 +386,60 @@
             font-size: 0.7rem;
             text-transform: uppercase;
             color: var(--color-text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        
+        .legend__section-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-muted);
+            margin: 8px 0 4px;
         }
         
         .legend__item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 4px;
+            gap: 10px;
+            margin-bottom: 6px;
         }
         
-        .legend__color {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
+        .legend__item svg {
             flex-shrink: 0;
         }
         
-        .legend__color--line {
-            height: 3px;
-            border-radius: 2px;
+        .legend__item--separator {
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(255,255,255,0.08);
         }
         
-        .legend__color--area {
+        .legend-collapse-btn {
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            font-size: 0.75rem;
+            padding: 2px 4px;
             border-radius: 3px;
-            opacity: 0.6;
+            line-height: 1;
+            transition: color 0.2s, transform 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .legend-collapse-btn:hover {
+            color: var(--color-text);
+        }
+        
+        .legend.is-collapsed .legend__body {
+            display: none;
+        }
+        
+        .legend.is-collapsed .legend-collapse-btn {
+            transform: rotate(180deg);
         }
         
         /* ============================================
@@ -809,20 +841,6 @@
         }
         
         /* ============================================
-           LEGEND — SVG ICONS
-           ============================================ */
-        .legend__item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 6px;
-        }
-        
-        .legend__item svg {
-            flex-shrink: 0;
-        }
-        
-        /* ============================================
            HEADER POLISH
            ============================================ */
         .map-header {
@@ -1082,45 +1100,54 @@
     </div>
 
     <!-- Legend -->
-    <div class="legend">
-        <div class="legend__title">Legend</div>
-        <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--color-text-muted);margin:6px 0 4px;">Platform Status</div>
-        <div class="legend__item">
-            <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="#3498db" stroke="white" stroke-width="1.5"/></svg>
-            <span>Producing</span>
+    <div class="legend" id="legend">
+        <div class="legend__title">
+            Legend
+            <button class="legend-collapse-btn" id="legend-collapse-btn" title="Collapse legend">▾</button>
         </div>
-        <div class="legend__item">
-            <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="#f39c12" stroke="white" stroke-width="1.5"/></svg>
-            <span>Shut-in</span>
-        </div>
-        <div class="legend__item">
-            <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="#e74c3c" stroke="white" stroke-width="1.5"/></svg>
-            <span style="color:#e74c3c">Damaged / Spill Site</span>
-        </div>
-        <div class="legend__item">
-            <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="#5d6d7e" stroke="white" stroke-width="1.5"/></svg>
-            <span>Decommissioned</span>
-        </div>
-        <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--color-text-muted);margin:8px 0 4px;">Infrastructure</div>
-        <div class="legend__item">
-            <svg width="14" height="14" viewBox="0 0 14 14"><polygon points="7,1 13,13 1,13" fill="#27ae60" stroke="white" stroke-width="1.5"/></svg>
-            <span>Oil Field</span>
-        </div>
-        <div class="legend__item">
-            <svg width="14" height="14" viewBox="0 0 14 14"><polygon points="7,1 13,7 7,13 1,7" fill="#9b59b6" stroke="white" stroke-width="1.5"/></svg>
-            <span>Refinery</span>
-        </div>
-        <div class="legend__item">
-            <svg width="14" height="14" viewBox="0 0 14 14"><rect x="1.5" y="1.5" width="11" height="11" rx="2" fill="#e74c3c" stroke="white" stroke-width="1.5"/></svg>
-            <span>Marine Terminal</span>
-        </div>
-        <div class="legend__item">
-            <svg width="16" height="5" viewBox="0 0 16 5"><line x1="0" y1="2.5" x2="16" y2="2.5" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6,4"/></svg>
-            <span>Pipeline (animated flow)</span>
-        </div>
-        <div class="legend__item" style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.08)">
-            <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="none" stroke="#e74c3c" stroke-width="1.5" opacity="0.7"/></svg>
-            <span style="color:rgba(231,76,60,0.9)">Incident pulse ring</span>
+        <div class="legend__body" id="legend-body">
+            <div class="legend__section-label">Platform Status</div>
+            <div class="legend__item">
+                <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="#3498db" stroke="rgba(255,255,255,0.5)" stroke-width="1.2"/></svg>
+                <span>Producing</span>
+            </div>
+            <div class="legend__item">
+                <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="#f39c12" stroke="rgba(255,255,255,0.5)" stroke-width="1.2"/></svg>
+                <span>Shut-in</span>
+            </div>
+            <div class="legend__item">
+                <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="#e74c3c" stroke="rgba(255,255,255,0.5)" stroke-width="1.2"/></svg>
+                <span style="color:#e74c3c">Damaged / Spill Site</span>
+            </div>
+            <div class="legend__item">
+                <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="#5d6d7e" stroke="rgba(255,255,255,0.5)" stroke-width="1.2"/></svg>
+                <span>Decommissioned</span>
+            </div>
+            <div class="legend__section-label" style="margin-top:8px;">Infrastructure</div>
+            <div class="legend__item">
+                <svg width="14" height="14" viewBox="0 0 14 14"><polygon points="7,1 13,13 1,13" fill="#27ae60" stroke="rgba(255,255,255,0.5)" stroke-width="1.2"/></svg>
+                <span>Oil Field</span>
+            </div>
+            <div class="legend__item">
+                <svg width="14" height="14" viewBox="0 0 14 14"><polygon points="7,1 13,7 7,13 1,7" fill="#9b59b6" stroke="rgba(255,255,255,0.5)" stroke-width="1.2"/></svg>
+                <span>Refinery</span>
+            </div>
+            <div class="legend__item">
+                <svg width="14" height="14" viewBox="0 0 14 14"><rect x="1.5" y="1.5" width="11" height="11" rx="2" fill="#fdcb6e" stroke="rgba(255,255,255,0.5)" stroke-width="1.2"/></svg>
+                <span>Marine Terminal</span>
+            </div>
+            <div class="legend__item">
+                <svg width="20" height="6" viewBox="0 0 20 6"><line x1="0" y1="3" x2="20" y2="3" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6,3"/></svg>
+                <span>Pipeline</span>
+            </div>
+            <div class="legend__item">
+                <svg width="16" height="16" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="14" rx="2" fill="rgba(243,156,18,0.15)" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="4,3"/></svg>
+                <span>Geological Basin</span>
+            </div>
+            <div class="legend__item legend__item--separator">
+                <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#e74c3c" stroke-width="1.5" opacity="0.7"/><circle cx="8" cy="8" r="3.5" fill="#e74c3c" opacity="0.6"/></svg>
+                <span style="color:rgba(231,76,60,0.9)">Active Incident</span>
+            </div>
         </div>
     </div>
     
@@ -1167,6 +1194,14 @@
             });
         });
         
+        // Legend collapse
+        const legendEl = document.getElementById('legend');
+        const legendCollapseBtn = document.getElementById('legend-collapse-btn');
+        legendCollapseBtn.addEventListener('click', () => {
+            legendEl.classList.toggle('is-collapsed');
+            legendCollapseBtn.title = legendEl.classList.contains('is-collapsed') ? 'Expand legend' : 'Collapse legend';
+        });
+
         // Status filter buttons — delegate to california-map.js filterPlatformsByStatus
         document.querySelectorAll('.status-filter').forEach(btn => {
             btn.addEventListener('click', () => {

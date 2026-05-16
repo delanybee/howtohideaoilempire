@@ -76,7 +76,7 @@
         'artificial-island': createIcon('#1abc9c', 'circle',  20),
         'oil-field':        createIcon('#27ae60', 'triangle', 16),
         refinery:           createIcon('#9b59b6', 'diamond',  20),
-        'marine-terminal':  createIcon('#e74c3c', 'square',   16)
+        'marine-terminal':  createIcon('#fdcb6e', 'square',   16)
     };
     
     // Larger icons for hover/selected state
@@ -269,7 +269,7 @@
         
         marker.on('click', () => showInfoPanel(terminal, 'Marine Terminal'));
         marker.on('mouseover', () => {
-            marker.setIcon(createLargeIcon('#e74c3c', 'square'));
+            marker.setIcon(createLargeIcon('#fdcb6e', 'square'));
         });
         marker.on('mouseout', () => {
             if (selectedMarker !== marker) {
